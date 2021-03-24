@@ -1,11 +1,12 @@
 #include "matrix.h"
+#include <exception>
 
 void Matrix::fill(){
      for(int i = 0; i < rows * cols; i++){
      board.push_back('-');//zamien na cos innego debilu XD
          /*
      std::fill(board.begin(), board.end(), static_cast<char>(numbers);
-          numbers++;
+          numbers++; no i tutaj powinno byc getNumbers czy jakos tak
     */
      }
 }
@@ -18,4 +19,10 @@ std::ostream& operator<<(std::ostream& out, Matrix& m){ //przenies do pliku matr
         std::cout << " | " << std::endl;
     }
     return out;
+}
+char& Matrix::operator()( int r,  int c){
+    if(r < rows && c < cols)
+        return board.at(r + c * rows);
+    else
+        throw std::invalid_argument("dupa");
 }

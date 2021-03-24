@@ -20,16 +20,16 @@ public:
     }
     ~Matrix() {}
     //getters and setters
-    void setCols(unsigned int a){ cols = a;}
-    void setRows(unsigned int b){ rows = b;}
-    void setMoves(unsigned int c){amount_of_moves = rows * cols;}
+    void setCols( int a){ cols = a;}
+    void setRows( int b){ rows = b;}
+    void setMoves( int c){amount_of_moves = rows * cols;}
     int getCols(){ return cols;};
     int getRows(){ return rows;}
     int getMoves(){ return amount_of_moves;}
-    void setValue(unsigned int r, unsigned int c, char value){board.at(r + c * rows) = value;}
-    char getValue(unsigned int r, unsigned int c){return board.at(r + c * rows);}
+    void setValue( int r,  int c, char value){board.at(r + c * rows) = value;}
+    char getValue( int r,  int c){return board.at(r + c * rows);}
     // operator overloading
-    char &operator()(unsigned int r, unsigned int c){if(r < rows && c < cols) return board.at(r + c * rows);} //no difference between rows and cols here
+    char &operator()( int r,  int c); //no difference between rows and cols here
     friend std::ostream& operator<<(std::ostream& out, Matrix& m);
     //functions
     void fill();

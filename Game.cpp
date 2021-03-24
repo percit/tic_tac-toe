@@ -17,6 +17,7 @@ bool Game::isMoveAllowed(unsigned int r, unsigned int c) {
     }
     int temp = getMoves() - 1; // we change amout of moves
     setMoves(temp);
+    return true;
 }
 void Game::resetBoard() {
     m.fill();//a kto mi tak pisac zabroni XD

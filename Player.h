@@ -12,6 +12,4 @@ public:
    // int getID(){return playerID;}
     //char getSign(){ return TickOrToe;}
 };
-
-
 #endif //UNTITLED3_PLAYER_H
