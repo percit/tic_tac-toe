@@ -27,9 +27,8 @@ public:
     int getRows(){ return rows;}
     int getMoves(){ return amount_of_moves;}
     void setValue( int r,  int c, char value){board.at(r + c * rows) = value;}
-    char getValue( int r,  int c){return board.at(r + c * rows);}
     // operator overloading
-    char &operator()( int r,  int c); //no difference between rows and cols here
+    char &operator()( int r,  int c);
     friend std::ostream& operator<<(std::ostream& out, Matrix& m);
     //functions
     void fill();

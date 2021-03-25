@@ -1,18 +1,20 @@
 #include "Game.h"
 
-void Game::addMove(unsigned int r, unsigned int c, Player player) {
+void Game::addMove( int r,  int c, Player player) {
     //pomysl czy trza sprawdzac tu wymiary, czy w przeciazeniu ()
     char sign;
     if(player.playerID == 1){
         sign = 'X';
+        m.setValue(r, c, sign);
     }
-    else sign = 'O';
-    m.setValue(r, c, sign);
-
+    else if(player.playerID == 2){
+        sign = 'O';
+        m.setValue(r, c, sign);
+    }
 }
-bool Game::isMoveAllowed(unsigned int r, unsigned int c) {
+bool Game::isMoveAllowed( int r,  int c) {
     if(getMoves() > 0) {
-        if ((m.getValue(r, c) == 'X') || (m.getValue(r, c) == 'O'))
+        if ((m(r, c) == 'X') || (m(r, c) == 'O'))
             return false;
     }
     int temp = getMoves() - 1; // we change amout of moves
@@ -33,9 +35,9 @@ int Game::Winner(Game &game1, Player player1, Player player2) { //  EW SPOJRZ NA
     int lineO_2 = 0, lineX_2 = 0;//for diagonal
     for (int i = 0; i < m.getCols(); i++) { //poziomo
         for (int j = 0; j < m.getCols(); j++) {
-            if (m.getValue(i, j) == 'X')   //   JAK BEDE ZMIENIAC NA TE Z ODPOWIEDNIA DLUGOSCIA TO TU BEDE ZMIENIAL KOD
+            if (m(i, j) == 'X')   //   JAK BEDE ZMIENIAC NA TE Z ODPOWIEDNIA DLUGOSCIA TO TU BEDE ZMIENIAL KOD
                 lineX_1++;
-            else if (m.getValue(i, j) == 'O')
+            else if (m(i, j) == 'O')
                 lineO_1++;
         }
         if(lineO_1 == m.getCols()) //DODAJ ARGUMENT Z ILOSCIA ZNAKOW DO WYGRANEJ
@@ -49,9 +51,9 @@ int Game::Winner(Game &game1, Player player1, Player player2) { //  EW SPOJRZ NA
     }
     for (int i = 0; i < m.getCols(); i++) { //pionowo
         for (int j = 0; j < m.getCols(); j++) {
-            if (m.getValue(j, i) == 'X')   //   sprawdz czy to dziala xd
+            if (m(j, i) == 'X')   //   sprawdz czy to dziala xd
                 lineX_1++;
-            else if (m.getValue(i, j) == 'O')
+            else if (m(i, j) == 'O')
                 lineO_1++;
         }
         if(lineO_1 == m.getCols())
@@ -65,13 +67,13 @@ int Game::Winner(Game &game1, Player player1, Player player2) { //  EW SPOJRZ NA
     } //tutaj bede musial zmienic kod zeby ogarnac z dwoch stron to
     for (int i = 0; i < m.getCols(); i++) { //pionowo
         for (int j = 0; j < m.getCols(); j++) {
-            if (m.getValue(i, i) == 'X')   //   sprawdz czy to dziala xd
+            if (m(i, i) == 'X')   //   sprawdz czy to dziala xd
                 lineX_2++;
-            else if (m.getValue(i, i) == 'O')
+            else if (m(i, i) == 'O')
                 lineO_2++;
-            else if (m.getValue(j, j) == 'X')
+            else if (m(j, j) == 'X')
                 lineO_2++;
-            else if (m.getValue(j, j) == 'O')
+            else if (m(j, j) == 'O')
                 lineO_2++;
         }
         if(lineO_2 == m.getCols())
@@ -208,7 +210,8 @@ void Game::Management()
 
     int if_victory = win.Winner(board, user, AI);
     std::cout << "Type your move as: row column" << std::endl;
-    board.displayBoard(user, AI);
+   // board.displayBoard(user, AI); //NAPRAW TO
+   std::cout << board;
 
     while(if_victory == -1)
     {
@@ -232,7 +235,8 @@ void Game::Management()
 
         }
 
-        board.displayBoard(user, AI);
+       // board.displayBoard(user, AI); //NAPRAW TO
+       std::cout << board;
         counter++;
         if_victory = win.Winner(board, user, AI);
     }

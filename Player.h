@@ -6,9 +6,9 @@ class Player {
 private:
 
 public:
-    unsigned int playerID; // 1 is X, 2 is O
+    int playerID; // 1 is X, 2 is O
     char TickOrToe;
-    Player(unsigned int a, char b): playerID(a), TickOrToe(b){}
+    Player( int a, char b): playerID(a), TickOrToe(b){}//wybieram id playera, czyli 1/2, a potem znak
    // int getID(){return playerID;}
     //char getSign(){ return TickOrToe;}
 };

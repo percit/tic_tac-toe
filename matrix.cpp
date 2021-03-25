@@ -13,7 +13,6 @@ void Matrix::fill(){
 std::ostream& operator<<(std::ostream& out, Matrix& m){ //przenies do pliku matrix.cpp
     for(int i = 0; i < m.rows; i++){
         for(int j = 0; j < m.cols; j++){
-            //std::cout<< m.getValue(i, j);
             std::cout<< " | " << m(i, j) ;
         }
         std::cout << " | " << std::endl;
