@@ -4,7 +4,7 @@
 
 class Player {
 private:
-    int playerID; // 1 is X, 2 is O
+    int playerID; // 1 is X, 2 is O // w sumie mozesz to zmienic na enum
     char TickOrToe;
 public:
     Player( int a, char b): playerID(a), TickOrToe(b){}//wybieram id playera, czyli 1/2, a potem znak

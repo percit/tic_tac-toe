@@ -19,6 +19,7 @@ public:
         }
     }
     ~Matrix() {}
+   // Matrix() = delete; //deleting default constructor
     //getters and setters
     void setCols( int a){ cols = a;}
     void setRows( int b){ rows = b;}

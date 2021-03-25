@@ -3,12 +3,19 @@
 #include "Game.h"
 int main(){
     //TESTING GAME CLASS
-
-
+    Game game1(3);
+    Player player1(1, 'X');
+    game1.isMoveAllowed(1,1);
+    //game1.addMove(1,1, player1);
+    //game1.isMoveAllowed(1,1);
+    //game1.resetBoard();
+    //game1.displayBoard();
     //TESTING PLAYER CLASS
+    /*
     Player player1(1, 'X');
     std::cout << player1.getID();
     std::cout << player1.getSign();
+    */
 
     //TESTING MATRIX CLASS
     /*

@@ -10,24 +10,25 @@ struct Move
 };
 class Game: public Matrix {
 private:
-    Matrix m;
     int winningID; //winningNumber z wincondition.h
     int dimension;
+    Matrix m;
 public:
-    Game( int newDimension)
+    Game(int newDimension): dimension(newDimension), m(newDimension, newDimension)
     {
-        this->dimension = newDimension;
-        this->m = Matrix(newDimension, newDimension);
+      Matrix m(newDimension, newDimension);
     }
     void addMove( int ,  int, Player);
     bool isMoveAllowed( int,  int);
     void resetBoard();
-    void displayBoard(Player, Player);
-    unsigned int getWinningID(){ return winningID;}
+    void displayBoard();
+    int getWinningID(){ return winningID;}
     void removeMove( int i,  int j);
+
     Matrix & returnMatrix(){
         return m;
     }
+
     //MAIN FUNCTIONS
     int Winner(Game & , Player , Player ); //wszystkie mozliwe opcje i chyba wrzuc jako argument ten min dlugosci znakow, zeby wygrac
     //https://github.com/adamek195/TicTacToe-AI/blob/master/TicTacToeGame/TicTacToeGame/Board.cpp tutaj jest funkcja check zamiast winner, moze jest lepsza...
