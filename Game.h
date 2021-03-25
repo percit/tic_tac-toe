@@ -11,10 +11,10 @@ struct Move
 class Game: public Matrix {
 private:
     Matrix m;
-    unsigned int winningID; //winningNumber z wincondition.h
-    unsigned int dimension;
+    int winningID; //winningNumber z wincondition.h
+    int dimension;
 public:
-    Game(unsigned int newDimension)
+    Game( int newDimension)
     {
         this->dimension = newDimension;
         this->m = Matrix(newDimension, newDimension);
@@ -24,7 +24,7 @@ public:
     void resetBoard();
     void displayBoard(Player, Player);
     unsigned int getWinningID(){ return winningID;}
-    void removeMove(unsigned int i, unsigned int j);
+    void removeMove( int i,  int j);
     Matrix & returnMatrix(){
         return m;
     }

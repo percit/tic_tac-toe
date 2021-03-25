@@ -6,16 +6,19 @@ int main(){
 
 
     //TESTING PLAYER CLASS
-
+    Player player1(1, 'X');
+    std::cout << player1.getID();
+    std::cout << player1.getSign();
 
     //TESTING MATRIX CLASS
+    /*
     Matrix m(3,3);
     m.fill();
-    m.setValue(1,1,'x');
-   // std::cout << m;
-   // m.getMoves(); //nie dziala
+    m(1,1) = 'x';
+    std:: cout << m.getMoves();
+    std::cout << m;
     std::cout << m(1,1);
-
+    */
 
 
 

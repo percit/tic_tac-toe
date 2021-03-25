@@ -3,14 +3,13 @@
 void Game::addMove( int r,  int c, Player player) {
     //pomysl czy trza sprawdzac tu wymiary, czy w przeciazeniu ()
     char sign;
-    if(player.playerID == 1){
+    if(player.getID() == 1){
         sign = 'X';
-        m.setValue(r, c, sign);
+        m(r,c) = sign;
     }
-    else if(player.playerID == 2){
+    else if(player.getID() == 2){
         sign = 'O';
-        m.setValue(r, c, sign);
-    }
+        m(r,c) = sign;    }
 }
 bool Game::isMoveAllowed( int r,  int c) {
     if(getMoves() > 0) {
@@ -24,9 +23,9 @@ bool Game::isMoveAllowed( int r,  int c) {
 void Game::resetBoard() {
     m.fill();//a kto mi tak pisac zabroni XD
 }
-void Game::removeMove(unsigned int i, unsigned int j)
+void Game::removeMove( int i,  int j)
 {
-    m.setValue(i,j, 0);
+    m(i,j) = 0;
 }
 int Game::Winner(Game &game1, Player player1, Player player2) { //  EW SPOJRZ NA WINNING CONDITION EMILII, TA FUNKCJA MA ZWRACAC 10 JESLI WYGRAM, -10 JESLI PRZEGRAM I 0 JESLI REMIS
 
@@ -95,8 +94,8 @@ std::pair< int, std::pair<int, int> > Game::MinMax(Game & gameBoard, Player play
     unsigned int boardSize = gameBoard.getCols();
     Matrix & fields = gameBoard.returnMatrix();
     int winner;
-    int player1ID = player1.playerID;
-    int player2ID = player2.playerID;
+    int player1ID = player1.getID();
+    int player2ID = player2.getID();
     int result = condition.Winner(gameBoard, player1, player2);
     std::pair <int, std::pair<int, int> > nextRecursion;
     if(result == 0)
@@ -241,13 +240,13 @@ void Game::Management()
         if_victory = win.Winner(board, user, AI);
     }
 
-    if(if_victory == user.playerID)
+    if(if_victory == user.getID())
     {
         std::cout << "YOU WON! :)"<<std::endl;
     }
     else
     {
-        if (if_victory == AI.playerID) std::cout << "AI WON! :(" << std::endl;
+        if (if_victory == AI.getID()) std::cout << "AI WON! :(" << std::endl;
         else std::cout << "DRAW" <<std::endl;
     }
 }
