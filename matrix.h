@@ -10,7 +10,7 @@ private:
     int rows = 0;
     std::vector<char> board;
    // int number = 0;//TO MA WYPELNIC MATRIX, ALE NARAZIE NIE DZIALA
-    int amount_of_moves = 9; //WERSJA PROBNA, TA NIZEJ TO BEDZIE OSTATECZNA
+    int amount_of_moves =  rows * cols; //WERSJA PROBNA, TA NIZEJ TO BEDZIE OSTATECZNA
 
 public:
     Matrix(int a = 3, int b = 3): cols(a), rows(b) { //we give min size of 3x3 , MOZNA UPROSCIC DO JEDNEGO WYMIARU, ALE W WERSJI OSTATECZNEJ
@@ -23,8 +23,8 @@ public:
     //getters and setters
     void setCols( int a){ cols = a;}
     void setRows( int b){ rows = b;}
-    void setMoves( int c){amount_of_moves = rows * cols;}
-    int getCols(){ return cols;};
+    void setMoves( int c){amount_of_moves = c;} // nie dziala
+    int getCols(){ return cols;}
     int getRows(){ return rows;}
     int getMoves(){ return amount_of_moves;}
     // operator overloading

@@ -11,7 +11,17 @@ void Game::addMove( int r,  int c, Player player) {
         sign = 'O';
         m(r,c) = sign;    }
 }
-bool Game::isMoveAllowed( int r,  int c) {
+bool Game::isMoveAllowed( int r,  int c) { //w przyszlosci popraw
+    if (m(r, c) != '-') {
+        std::cout << "false";
+        return false;
+    }
+    else{
+        std::cout << "true";
+        return true;
+    }
+
+    /*
     if(getMoves() > 0) {
         if ((m(r, c) == 'X') || (m(r, c) == 'O'))
             return false;
@@ -19,6 +29,7 @@ bool Game::isMoveAllowed( int r,  int c) {
     int temp = getMoves() - 1; // we change amout of moves
     setMoves(temp);
     return true;
+     */
 }
 void Game::resetBoard() {
     m.fill();//a kto mi tak pisac zabroni XD

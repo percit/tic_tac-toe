@@ -22,6 +22,9 @@ std::ostream& operator<<(std::ostream& out, Matrix& m){ //przenies do pliku matr
 char& Matrix::operator()( int r,  int c){
     if(r < rows && c < cols)
         return board.at(r + c * rows);
-    else
+    else {
+        std::cout << r;
         throw std::invalid_argument("dupa");
+        std::cout << r;
+    }
 }

@@ -3,12 +3,18 @@
 #include "Game.h"
 int main(){
     //TESTING GAME CLASS
-    Game game1(3);
+    Game m(3);
+    m.fill(); // TU ZAWSZE MUSI BYC FILL(), MOZE DODAJ DO KONSTRUKTORA
+  //  std::cout << m;
     Player player1(1, 'X');
-    game1.isMoveAllowed(1,1);
+    m(1,1) = 'x';
+    std::cout << m;
+    //m.isMoveAllowed(1,1);
     //game1.addMove(1,1, player1);
     //game1.isMoveAllowed(1,1);
-    //game1.resetBoard();
+    m.resetBoard();
+    std::cout << m;
+
     //game1.displayBoard();
     //TESTING PLAYER CLASS
     /*
@@ -23,8 +29,10 @@ int main(){
     m.fill();
     m(1,1) = 'x';
     std:: cout << m.getMoves();
-    std::cout << m;
-    std::cout << m(1,1);
+    m.setMoves(5);
+    std:: cout << m.getMoves();
+    //std::cout << m;
+    //std::cout << m(1,1);
     */
 
 
