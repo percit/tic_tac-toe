@@ -13,11 +13,11 @@ void Game::addMove( int r,  int c, Player player) {
 }
 bool Game::isMoveAllowed( int r,  int c) { //w przyszlosci popraw
     if (m(r, c) != '-') {
-        std::cout << "false";
+        std::cout << "false" << std::endl;
         return false;
     }
     else{
-        std::cout << "true";
+        std::cout << "true" << std::endl;;
         return true;
     }
 
@@ -32,7 +32,7 @@ bool Game::isMoveAllowed( int r,  int c) { //w przyszlosci popraw
      */
 }
 void Game::resetBoard() {
-    m.fill();//a kto mi tak pisac zabroni XD
+    m.clear();//a kto mi tak pisac zabroni XD
 }
 void Game::removeMove( int i,  int j)
 {
@@ -97,84 +97,85 @@ int Game::Winner(Game &game1, Player player1, Player player2) { //  EW SPOJRZ NA
     }
     return winningPlayer;
 }
-std::pair< int, std::pair<int, int> > Game::MinMax(Game & gameBoard, Player player1, Player player2, bool minOrMax, Game condition, int depth)
-{
-    int tableOfMaxDepth[11] = {0, 0, 0, 10, 5, 4, 3, 3, 3, 3, 2};
-    int MinMaxValue = -2;
-    std::pair<int,int> move;
-    unsigned int boardSize = gameBoard.getCols();
-    Matrix & fields = gameBoard.returnMatrix();
-    int winner;
-    int player1ID = player1.getID();
-    int player2ID = player2.getID();
-    int result = condition.Winner(gameBoard, player1, player2);
-    std::pair <int, std::pair<int, int> > nextRecursion;
-    if(result == 0)
-    {
-        winner = 0;
-    }
-    else
-    {
-        if(result == player1ID)
-        {
-            winner = 1;
-        }
-        else
-        {
-            if(result == player2ID) winner = -1;
-            else winner = 2;
-        }
-    }
 
-    if(winner != 2)
-        return {winner, {-1, -1} };
-
-    if(boardSize <= 10)
-    {
-        if(depth == tableOfMaxDepth[boardSize])
-            return {0, {-1, -1}};
-    }
-    else
-    {
-        if(depth == 2)
-            return {0, {-1, -1}};
-
-    }
-
-    for(unsigned int i = 0; i < boardSize; i++)
-    {
-        for(unsigned int j = 0; j < boardSize; j++)
-        {
-            if(fields(i,j) == 0)
-            {
-                if(minOrMax)			//maximizing
-                {
-                    gameBoard.addMove(i, j, player1);
-                    nextRecursion = MinMax(gameBoard, player1, player2, false, condition, depth+1);
-                    if(MinMaxValue == -2 or nextRecursion.first > MinMaxValue)
-                    {
-                        MinMaxValue = nextRecursion.first;
-                        move = {i,j};
-                    }
-                }
-                else				//minimizing
-                {
-                    gameBoard.addMove(i, j, player2);
-                    nextRecursion = MinMax(gameBoard, player1, player2, true, condition, depth+1);
-                    if(MinMaxValue == -2 or nextRecursion.first < MinMaxValue)
-                    {
-                        MinMaxValue = nextRecursion.first;
-                        move = {i,j};
-                    }
-
-                }
-                gameBoard.removeMove(i,j);
-            }
-        }
-    }
-
-    return {MinMaxValue, move};
-}
+//std::pair< int, std::pair<int, int> > Game::MinMax(Game & gameBoard, Player player1, Player player2, bool minOrMax, Game condition, int depth)
+//{
+//    int tableOfMaxDepth[11] = {0, 0, 0, 10, 5, 4, 3, 3, 3, 3, 2};
+//    int MinMaxValue = -2;
+//    std::pair<int,int> move;
+//    unsigned int boardSize = gameBoard.getCols();
+//    Matrix & fields = gameBoard.returnMatrix();
+//    int winner;
+//    int player1ID = player1.getID();
+//    int player2ID = player2.getID();
+//    int result = condition.Winner(gameBoard, player1, player2);
+//    std::pair <int, std::pair<int, int> > nextRecursion;
+//    if(result == 0)
+//    {
+//        winner = 0;
+//    }
+//    else
+//    {
+//        if(result == player1ID)
+//        {
+//            winner = 1;
+//        }
+//        else
+//        {
+//            if(result == player2ID) winner = -1;
+//            else winner = 2;
+//        }
+//    }
+//
+//    if(winner != 2)
+//        return {winner, {-1, -1} };
+//
+//    if(boardSize <= 10)
+//    {
+//        if(depth == tableOfMaxDepth[boardSize])
+//            return {0, {-1, -1}};
+//    }
+//    else
+//    {
+//        if(depth == 2)
+//            return {0, {-1, -1}};
+//
+//    }
+//
+//    for(unsigned int i = 0; i < boardSize; i++)
+//    {
+//        for(unsigned int j = 0; j < boardSize; j++)
+//        {
+//            if(fields(i,j) == 0)
+//            {
+//                if(minOrMax)			//maximizing
+//                {
+//                    gameBoard.addMove(i, j, player1);
+//                    nextRecursion = MinMax(gameBoard, player1, player2, false, condition, depth+1);
+//                    if(MinMaxValue == -2 or nextRecursion.first > MinMaxValue)
+//                    {
+//                        MinMaxValue = nextRecursion.first;
+//                        move = {i,j};
+//                    }
+//                }
+//                else				//minimizing
+//                {
+//                    gameBoard.addMove(i, j, player2);
+//                    nextRecursion = MinMax(gameBoard, player1, player2, true, condition, depth+1);
+//                    if(MinMaxValue == -2 or nextRecursion.first < MinMaxValue)
+//                    {
+//                        MinMaxValue = nextRecursion.first;
+//                        move = {i,j};
+//                    }
+//
+//                }
+//                gameBoard.removeMove(i,j);
+//            }
+//        }
+//    }
+//
+//    return {MinMaxValue, move};
+//}
 void Game::Management()
 {
     unsigned int winningNumber, sizeOfBoard;

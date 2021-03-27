@@ -32,5 +32,6 @@ public:
     friend std::ostream& operator<<(std::ostream& out, Matrix& m);
     //functions
     void fill();
+    void clear();
 };
 #endif //UNTITLED3_MATRIX_H

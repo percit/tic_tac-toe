@@ -5,15 +5,15 @@ int main(){
     //TESTING GAME CLASS
     Game m(3);
     m.fill(); // TU ZAWSZE MUSI BYC FILL(), MOZE DODAJ DO KONSTRUKTORA
-  //  std::cout << m;
+    std::cout << m << std::endl;
     Player player1(1, 'X');
     m(1,1) = 'x';
-    std::cout << m;
-    //m.isMoveAllowed(1,1);
+    std::cout << m << std::endl;;
+    m.isMoveAllowed(1,1);
     //game1.addMove(1,1, player1);
     //game1.isMoveAllowed(1,1);
     m.resetBoard();
-    std::cout << m;
+    std::cout << m << std::endl;;
 
     //game1.displayBoard();
     //TESTING PLAYER CLASS

@@ -28,3 +28,9 @@ char& Matrix::operator()( int r,  int c){
         std::cout << r;
     }
 }
+
+void Matrix::clear() {
+    if(!board.empty()){
+        std::fill(board.begin(), board.end(), '-');
+    }
+}

@@ -8,7 +8,7 @@ struct Move
 {
     int row, col;
 };
-class Game: public Matrix {
+class Game{
 private:
     int winningID = 0; //winningNumber z wincondition.h
     int dimension = 3;
@@ -28,10 +28,22 @@ public:
     Matrix & returnMatrix(){
         return m;
     }
+    void fill(){
+        m.fill();
+    }
 
+    char& operator()( int r,  int c) {
+        return m(r, c);
+    }
+
+    friend std::ostream& operator<<(std::ostream& out, Game& game){
+        out << game.m;
+        return out;
+    }
     //MAIN FUNCTIONS
     int Winner(Game & , Player , Player ); //wszystkie mozliwe opcje i chyba wrzuc jako argument ten min dlugosci znakow, zeby wygrac
-    std::pair< int, std::pair<int, int> > MinMax(Game & gameBoard, Player player1, Player player2, bool minOrMax, Game condition, int depth);
+    std::pair< int, std::pair<int, int> > MinMax(Game & gameBoard, Player player1, Player player2, bool minOrMax, Game condition, int depth)
+    {return {};}
     //Game condition to to samo co z Wincondition condition
 
     void Management();
