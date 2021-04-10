@@ -1,6 +1,7 @@
 ## Tic tac toe with min max
 
 TODO:
+
 -check Game class
 
 -write rest of the code
