@@ -2,6 +2,10 @@
 
 TODO:
 -check Game class
+
 -write rest of the code
+
 -use move semantics as exercise
+
 -add gtests
+
