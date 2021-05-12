@@ -12,4 +12,7 @@ add_executable(tic_tac_toe
         matrix.cpp
         matrix.h
         Player.cpp
-        Player.h)
+        Player.h
+        catch/catch_main.cpp
+        Tests.cpp
+        )

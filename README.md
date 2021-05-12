@@ -4,8 +4,6 @@
 
 TODO:
 
-- use move and copy constructors (and assigment operators) 
-
 - add tests (catch for example) 
 
 - clean up sloppy parts of code

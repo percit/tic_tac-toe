@@ -13,11 +13,9 @@ void Game::addMove( int r,  int c, Player player) {
 }
 bool Game::isMoveAllowed( int r,  int c) { //w przyszlosci popraw
     if (m(r, c) != '-') {
-        std::cout << "false" << std::endl;
         return false;
     }
     else{
-        std::cout << "true" << std::endl;;
         return true;
     }
 

@@ -31,6 +31,9 @@ public:
     void fill(){
         m.fill();
     }
+    void clear(){
+        m.clear();
+    }
 
     char& operator()( int r,  int c) {
         return m(r, c);

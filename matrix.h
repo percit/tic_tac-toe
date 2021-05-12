@@ -25,22 +25,14 @@ public:
         rows = m.rows;
         board = m.board;
     }
-    Matrix(Matrix &&m) noexcept{
-        cols = m.cols;
-        rows = m.rows;
-        board = m.board;
-        //deleting copies
-        m.cols = 0;
-        m.rows = 0;
-        m.board.clear();
-    }
+    Matrix(Matrix &&m) noexcept :  cols(std::move(m.cols)),  rows(std::move(m.rows)),  board(std::move(m.board)){}
     //getters and setters
     void setCols( int a){ cols = a;}
     void setRows( int b){ rows = b;}
-    void setMoves( int c){amount_of_moves = c;} // nie dziala
-    int getCols(){ return cols;}
+    void setMoves( int c){amount_of_moves = c;}
+    [[nodiscard]] int getCols() const{ return cols;}
     int getRows(){ return rows;}
-    int getMoves(){ return amount_of_moves;}
+    [[nodiscard]] int getMoves() const{ return amount_of_moves;}
     // operator overloading
     char &operator()( int r,  int c);
     friend std::ostream& operator<<(std::ostream& out, Matrix& m);
