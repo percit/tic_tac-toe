@@ -4,13 +4,14 @@
 
 TODO:
 
--check Game class
+- use move and copy constructors (and assigment operators) 
 
--write rest of the code
+- add tests (catch for example) 
 
--use move semantics as exercise
+- clean up sloppy parts of code
 
--add gtests
+- check Game class
 
-- use more modern c++ features
+- change if switching player works
 
+- add more modern c++ features

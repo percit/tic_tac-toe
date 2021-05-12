@@ -13,13 +13,27 @@ private:
     int amount_of_moves =  rows * cols; //WERSJA PROBNA, TA NIZEJ TO BEDZIE OSTATECZNA
 
 public:
-    Matrix(int a = 3, int b = 3): cols(a), rows(b) { //we give min size of 3x3 , MOZNA UPROSCIC DO JEDNEGO WYMIARU, ALE W WERSJI OSTATECZNEJ
+    explicit Matrix(int a = 3, int b = 3): cols(a), rows(b) { //we give min size of 3x3 , MOZNA UPROSCIC DO JEDNEGO WYMIARU, ALE W WERSJI OSTATECZNEJ
         if((cols == rows) && (rows >=3) && (rows <=10)) {
             board.reserve(cols * rows);
         }
     }
-    ~Matrix() {}
-   // Matrix() = delete; //deleting default constructor
+    virtual ~Matrix()  = default;
+    Matrix() = delete; //deleting default constructor
+    Matrix(const Matrix &m){ //copy constructor
+        cols = m.cols;
+        rows = m.rows;
+        board = m.board;
+    }
+    Matrix(Matrix &&m) noexcept{
+        cols = m.cols;
+        rows = m.rows;
+        board = m.board;
+        //deleting copies
+        m.cols = 0;
+        m.rows = 0;
+        m.board.clear();
+    }
     //getters and setters
     void setCols( int a){ cols = a;}
     void setRows( int b){ rows = b;}
