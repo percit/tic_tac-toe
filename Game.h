@@ -6,7 +6,7 @@
 
 struct Move
 {
-    int row, col;
+    int row = 0, col = 0;
 };
 class Game{
 private:
@@ -22,29 +22,20 @@ public:
     bool isMoveAllowed( int,  int);
     void resetBoard();
     void displayBoard();
+    void setWinningID(int ID){winningID = ID;}
     int getWinningID(){ return winningID;}
     void removeMove( int i,  int j);
-
-    Matrix & returnMatrix(){
-        return m;
-    }
-    void fill(){
-        m.fill();
-    }
-    void clear(){
-        m.clear();
-    }
-
-    char& operator()( int r,  int c) {
-        return m(r, c);
-    }
-
+    void fill(){m.fill();}
+    void clear(){m.clear();}
+    Matrix & returnMatrix(){return m;}
+    //operators
+    char& operator()( int r,  int c) {return m(r, c);}
     friend std::ostream& operator<<(std::ostream& out, Game& game){
         out << game.m;
         return out;
     }
     //MAIN FUNCTIONS
-    int Winner(Game & , Player , Player ); //wszystkie mozliwe opcje i chyba wrzuc jako argument ten min dlugosci znakow, zeby wygrac
+    int Winner(); //wszystkie mozliwe opcje i chyba wrzuc jako argument ten min dlugosci znakow, zeby wygrac
     std::pair< int, std::pair<int, int> > MinMax(Game & gameBoard, Player player1, Player player2, bool minOrMax, Game condition, int depth)
     {return {};}
     //Game condition to to samo co z Wincondition condition

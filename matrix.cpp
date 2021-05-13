@@ -5,11 +5,6 @@ void Matrix::fill(){
     for(int i = 0; i < rows * cols; i++) {
         board.push_back('-');//zamien na cos innego debilu XD
     }
-    /*
-     std::fill(board.begin(), board.end(), static_cast<char>(numbers);
-          numbers++; no i tutaj powinno byc getNumbers czy jakos tak
-    */
-
 }
 std::ostream& operator<<(std::ostream& out, Matrix& m){
     for(int i = 0; i < m.rows; i++){

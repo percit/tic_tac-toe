@@ -1,15 +1,33 @@
-## Tic tac toe with min max
+# Tic tac toe with min max
 
-# NOT DONE YET 
+### cool features:
 
-TODO:
+- TDD(catch2)
 
-- add tests (catch for example) 
+- move semantics
 
-- clean up sloppy parts of code
+- modern c++ features(STL, algorithms(in future))
 
-- check Game class
+- multithreading (in future)
+## In progress...
 
-- change if switching player works
+# TODO:
+## Game
+
+- Winner
+
+- MinMax
+
+- Managment
+
+## Player
+
+## Matrix
+
+## Random
 
 - add more modern c++ features
+
+- clean sloppy code
+
+- multithreading

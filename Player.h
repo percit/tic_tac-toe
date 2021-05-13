@@ -4,11 +4,11 @@
 
 class Player {
 private:
-    int playerID; // 1 is X, 2 is O // w sumie mozesz to zmienic na enum
-    char TickOrToe;
+    int playerID = 0; // 1 is X, 2 is O // w sumie mozesz to zmienic na enum
+    char sign = '-';
 public:
-    Player( int a, char b): playerID(a), TickOrToe(b){}//wybieram id playera, czyli 1/2, a potem znak
-    int getID(){return playerID;}
-    char getSign(){ return TickOrToe;}
+    Player( int a, char b): playerID(a), sign(b){}//wybieram id playera, czyli 1/2, a potem znak
+    [[nodiscard]] int getID() const{return playerID;}
+    char getSign(){ return sign;}
 };
 #endif //UNTITLED3_PLAYER_H
