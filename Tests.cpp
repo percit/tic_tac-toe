@@ -32,42 +32,88 @@ TEST_CASE("Game"){
 }
 
 TEST_CASE("Winner"){
-    SECTION("Poziomy"){                 // X X X
-        Game g(3);          // - - -
-        g.fill();                        // - - -
+    SECTION("Poziomy3"){
+        Game g(3);
+        g.fill();
         Player player1(1, 'X');
-        g.addMove(0,0, player1);
-        g.addMove(0,1, player1);
-        g.addMove(0,2, player1);
+        g.addMove(0,0, player1);        // X X X
+        g.addMove(0,1, player1);        // - - -
+        g.addMove(0,2, player1);        // - - -
+        REQUIRE(g.Winner() == 1);
+    }
+    SECTION("Poziomy5"){
+        Game g(5);
+        g.fill();
+        Player player1(1, 'X');
+        g.addMove(2,0, player1);        // - - - - -
+        g.addMove(2,1, player1);        // - - - - -
+        g.addMove(2,2, player1);        // X X X X X
+        g.addMove(2,3, player1);        // - - - - -
+        g.addMove(2,4, player1);        // - - - - -
         REQUIRE(g.Winner() == 1);
     }
 
-    SECTION("Pionowy"){                  // X - -
-        Game g(3);           // X - -
-        g.fill();                         // X - -
+    SECTION("Pionowy3"){
+        Game g(3);
+        g.fill();
         Player player1(1, 'X');
-        g.addMove(0,0, player1);
-        g.addMove(1,0, player1);
-        g.addMove(2,0, player1);
+        g.addMove(0,0, player1);        // X - -
+        g.addMove(1,0, player1);        // X - -
+        g.addMove(2,0, player1);        // X - -
+        REQUIRE(g.Winner() == 1);
+    }
+    SECTION("Pionowy5"){
+        Game g(5);
+        g.fill();
+        Player player1(1, 'X');
+        g.addMove(2,0, player1);        // - - X - -
+        g.addMove(2,1, player1);        // - - X - -
+        g.addMove(2,2, player1);        // - - X - -
+        g.addMove(2,3, player1);        // - - X - -
+        g.addMove(2,4, player1);        // - - X - -
         REQUIRE(g.Winner() == 1);
     }
 
-    SECTION("diagnonal1"){                 // X - -
-        Game g(3);             // - X -
-        g.fill();                          // - - X
+    SECTION("diagnonal3"){
+        Game g(3);
+        g.fill();
         Player player1(1, 'X');
-        g.addMove(0,0, player1);
-        g.addMove(1,1, player1);
-        g.addMove(2,2, player1);
+        g.addMove(0,0, player1);        // X - -
+        g.addMove(1,1, player1);        // - X -
+        g.addMove(2,2, player1);        // - - X
         REQUIRE(g.Winner() == 1);
     }
-    SECTION("diagnonal2"){                 // - - X
-        Game g(3);             // - X -
-        g.fill();                          // X - -
+
+    SECTION("diagnonal5"){
+        Game g(5);
+        g.fill();
         Player player1(1, 'X');
-        g.addMove(0,2, player1);
-        g.addMove(1,1, player1);
-        g.addMove(2,0, player1);
+        g.addMove(0,0, player1);        // X - - - -
+        g.addMove(1,1, player1);        // - X - - -
+        g.addMove(2,2, player1);        // - - X - -
+        g.addMove(3,3, player1);        // - - - X -
+        g.addMove(4,4, player1);        // - - - - X
+        REQUIRE(g.Winner() == 1);
+    }
+
+    SECTION("rev-diagnonal3"){
+        Game g(3);
+        g.fill();
+        Player player1(1, 'X');
+        g.addMove(0,2, player1);            // - - X
+        g.addMove(1,1, player1);            // - X -
+        g.addMove(2,0, player1);            // X - -
+        REQUIRE(g.Winner() == 1);
+    }
+    SECTION("rev-diagnonal5"){
+        Game g(5);
+        g.fill();
+        Player player1(1, 'X');
+        g.addMove(0,4, player1);            // - - - - X
+        g.addMove(1,3, player1);            // - - - X -
+        g.addMove(2,2, player1);            // - - X - -
+        g.addMove(3,1, player1);            // - X - - -
+        g.addMove(4,0, player1);            // X - - - -
         REQUIRE(g.Winner() == 1);
     }
 

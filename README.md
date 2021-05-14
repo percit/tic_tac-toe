@@ -14,8 +14,6 @@
 # TODO:
 ## Game
 
-- Winner
-
 - MinMax
 
 - Managment
