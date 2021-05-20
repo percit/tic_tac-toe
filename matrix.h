@@ -14,7 +14,7 @@ private:
 public:
     explicit Matrix(int a = 3, int b = 3): cols(a), rows(b) {
         if((cols == rows) && (rows >=3) && (rows <=10)) {
-            board.reserve(cols * rows);
+            board.reserve(cols * rows); //tutaj mozesz inaczej wypelnic go, przez (x, std::vector<char>(y, '-))
         }
     }
     virtual ~Matrix()  = default;

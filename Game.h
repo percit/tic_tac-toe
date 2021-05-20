@@ -4,6 +4,7 @@
 #define UNTITLED3_GAME_H
 
 
+
 struct Move
 {
     int row = 0, col = 0;
@@ -18,12 +19,14 @@ public:
     {
       // m(newDimension, newDimension);
     }
-    void addMove( int ,  int, Player);
+    void addMove( int ,  int, char);
     bool isMoveAllowed( int,  int);
     void resetBoard();
     void displayBoard();
     void setWinningID(int ID){winningID = ID;}
     int getWinningID(){ return winningID;}
+    int getDimension(){ return dimension;}
+    int getAmountOFMoves();
     void removeMove( int i,  int j);
     void fill(){m.fill();}
     void clear(){m.clear();}
@@ -36,13 +39,17 @@ public:
     }
     //MAIN FUNCTIONS
     int Winner(); //wszystkie mozliwe opcje i chyba wrzuc jako argument ten min dlugosci znakow, zeby wygrac
-    std::pair< int, std::pair<int, int> > MinMax(Game & gameBoard, Player player1, Player player2, bool minOrMax, Game condition, int depth)
-    {return {};}
+   // std::pair< int, std::pair<int, int> > MinMax(Game & gameBoard, Player player1, Player player2, bool minOrMax, Game condition, int depth);
+  // int minimax(Game & gameBoard, int depth, bool isMax, int alpha, int beta);
+
     //Game condition to to samo co z Wincondition condition
 
-    void Management();
+   // void Management();
 
 };
-
+//random managment functions
+void playerMove(Game& board);
+void aiMove(Game& board);
+void Management(Game& board);
 
 #endif //UNTITLED3_GAME_H

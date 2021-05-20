@@ -1,15 +1,9 @@
 #include "Game.h"
-
-void Game::addMove( int r,  int c, Player player) {
-    char sign;
+#include <climits>
+void Game::addMove( int r,  int c, char player) {
+    //char sign;
     if(m(r,c) == '-') {
-        if (player.getID() == 1) {
-            sign = 'X';
-            m(r, c) = sign;
-        } else if (player.getID() == 2) {
-            sign = 'O';
-            m(r, c) = sign;
-        }
+        m(r, c) = player;
     }
 }
 bool Game::isMoveAllowed( int r,  int c) { //w przyszlosci popraw
@@ -30,6 +24,15 @@ bool Game::isMoveAllowed( int r,  int c) { //w przyszlosci popraw
     return true;
      */
 }
+int Game::getAmountOFMoves(){
+    int amountOfMoves = 0;
+    for(int i = 0; i < m.getCols(); ++i){
+        for(int j = 0; j < m.getRows(); ++j){
+            if(m(i, j) == '-') ++amountOfMoves;
+        }
+    }
+    return amountOfMoves;
+}
 void Game::resetBoard() {
     m.clear();
 }
@@ -38,7 +41,7 @@ void Game::removeMove( int i,  int j)
     m(i,j) = '-';
 }
 
-int Game::Winner() { //   TA FUNKCJA MA ZWRACAC 10 JESLI WYGRAM, -10 JESLI PRZEGRAM I 0 JESLI REMIS
+int Game::Winner() {
 
     int winningPlayer = 0;
     int lineO_1h = 0, lineX_1h = 0; //for horizontal - will be needed for multithreading
@@ -53,9 +56,9 @@ int Game::Winner() { //   TA FUNKCJA MA ZWRACAC 10 JESLI WYGRAM, -10 JESLI PRZEG
                 lineO_1h++;
         }
         if(lineX_1h == m.getCols()) //DODAJ ARGUMENT Z ILOSCIA ZNAKOW DO WYGRANEJ
-            winningPlayer = 1;
+            winningPlayer = 10;
         else if(lineO_1h == m.getCols())
-            winningPlayer = 2;
+            winningPlayer = -10;
         else{
             lineO_1h = 0;
             lineX_1h = 0;
@@ -71,10 +74,10 @@ int Game::Winner() { //   TA FUNKCJA MA ZWRACAC 10 JESLI WYGRAM, -10 JESLI PRZEG
                 lineO_1v++;
         }
         if(lineX_1v == m.getRows()) {
-            winningPlayer = 1;
+            winningPlayer = 10;
         }
         else if(lineO_1v == m.getRows()) {
-            winningPlayer = 2;
+            winningPlayer = -10;
         }
         else{
             lineO_1v = 0;
@@ -94,9 +97,9 @@ int Game::Winner() { //   TA FUNKCJA MA ZWRACAC 10 JESLI WYGRAM, -10 JESLI PRZEG
                 lineO_2++;
         }
         if(lineX_2 == m.getCols())
-            winningPlayer = 1;
+            winningPlayer = 10;
         else if(lineO_2 == m.getCols())
-            winningPlayer = 2;
+            winningPlayer = -10;
         else{
             lineO_2 = 0;
             lineX_2 = 0;
@@ -106,32 +109,166 @@ int Game::Winner() { //   TA FUNKCJA MA ZWRACAC 10 JESLI WYGRAM, -10 JESLI PRZEG
     return winningPlayer;
 }
 
+int minimax(Game & board,  int depth, bool isMax, int alpha, int beta) //X to my, pamietaj
+{
+    if(depth == 7)
+        return 0;
 
+    int score = board.Winner();
+    if (score == 10 || score == -10)    //if game is already won
+        return score;
 
+    if (board.getAmountOFMoves() == 0)
+        return 0; //draw
 
-/*
- for(int i = 0; i < 3; ++i){ poziomo
- for(int j = 0; i < 3; ++j){ poziomo
-if(board[i, j] == board[i, j] == board[i, j]
- winner = board[i, 0]
+    //jesli jest ruch gracza
+    if (isMax)
+    {
+        int best = INT_MIN/10;
+        for (int i = 0; i < board.getDimension(); i++)
+        {
+            for (int j = 0; j < board.getDimension(); j++)
+            {
+                if (board.isMoveAllowed(i, j))
+                {
+                    board.addMove(i, j, 'X');
+                    best = std::max(best, minimax(board, depth + 1, !isMax, alpha, beta));
 
- for(int i = 0; i < 3; ++i){ pionowo
- for(int j = 0; i < 3; ++j){
-if(board[j, i] == board[j, i] == board[j, i]
- winner = board[0, i]
+                    //remove if not optimal
+                    board.removeMove(i, j);
 
- diagonal
- if(board[0,0] == board[1,1] == board[2,2]){
- winner = board[0,0]
-  if(board[2,0] == board[1,1] == board[0,2]){
- winner = board[2,0]
-*/
+                    // alpha beta prunning
+                    alpha = std::max(alpha, best);
+                    if(beta <= alpha)
+                        break;
+                }
+            }
+        }
+        return best;
+    }
 
+    else //AI
+    {
+        int best = INT_MAX/10;
+        for (int i = 0; i < board.getDimension(); i++)
+        {
+            for (int j = 0; j < board.getDimension(); j++)
+            {
+                if (board.isMoveAllowed(i, j))
+                {
+                    board.addMove(i, j, 'O');
+                    best = std::min(best, minimax(board, depth + 1, !isMax, alpha, beta));
+                    board.removeMove(i, j);
+                    beta = std::min(beta, best);
+                    if(beta <= alpha)
+                        break;
+                }
+            }
+        }
+        return best;
+    }
+}
 
+std::pair<int, int> findBestMove(Game& board)
+{
+    int bestVal = INT_MAX/10;
+    std::pair<int, int> bestMove;
+    bestMove.first = -1;
+    bestMove.second = -1;
+    //we check all empty places and get minmax values for each to find optimal move
+    for (int i = 0; i < board.getDimension(); i++)
+    {
+        for (int j = 0; j < board.getDimension(); j++)
+        {
+            if (board.isMoveAllowed(i, j))
+            {
+                board.addMove(i, j, 'O');
+                //getting the value for that place
+                int moveVal = minimax(board,0, true, INT_MIN/10,INT_MAX/10);
+                //remove move(id adds it only for checking minmax
+                board.removeMove(i, j);
+                //if this place is most optimal, then choose it
+                if (moveVal < bestVal)
+                {
+                    bestMove.first = i;
+                    bestMove.second = j;
+                    bestVal = moveVal;
+                }
+            }
+        }
+    }
+    return bestMove;
+}
+void playerMove(Game& board)
+{
+    int x = 0;
+    int y = 0;
+    std::cout << "Where to put the sign?  " << std::endl;
+    std::cin >> x >> y ;
+    if ((x <= board.getDimension() - 1 && x >= 0) && (y <= board.getDimension() - 1 && y >= 0))
+    {
+        if (board.isMoveAllowed(x, y))
+            board.addMove(x, y, 'X');
+        else
+        {
+            std::cout << " Place taken" << std::endl;
+            playerMove(board);
+        }
+    }
+    else
+    {
+        std::cout << "Out of bounds" << std::endl;
+        playerMove(board);
+    }
 
+}
+void aiMove(Game& board)
+{
+    //std::pair<int, int> bestMove = findBestMove(board);
+    auto bestMove = findBestMove(board);
+    int x = bestMove.first;
+    int y = bestMove.second;
+    if(board.isMoveAllowed(x, y))
+        board.addMove(x, y, 'O');
+}
+void Management(Game& board)
+{
+    int victory = 0;
+    while(board.getAmountOFMoves() > 0)
+    {
+        std::cout << "Your move: " << std::endl;
 
+        if(board.getAmountOFMoves() > 0) //if any moves left
+            playerMove(board);
+        victory = board.Winner();
+        if(victory == 10)
+        {
+            std::cout << "You won" << std::endl;
+            break;
+        }
 
+        std::cout << board;
+        std::cout << "----------" << std::endl;
+        std::cout << "Ai move: " << std::endl;
 
+        if(board.getAmountOFMoves() > 0)
+            aiMove(board);
+
+        std::cout << "----------" << std::endl;
+        std::cout << board;
+
+        victory = board.Winner();
+        if(victory == -10)
+        {
+            std::cout << "You lost" << std::endl;
+            break;
+        }
+    }
+    if(victory == 0) //draw
+    {
+        std::cout << "Draw" << std::endl;;
+    }
+}
 
 
 
@@ -141,12 +278,13 @@ std::pair< int, std::pair<int, int> > Game::MinMax(Game & gameBoard, Player play
     int tableOfMaxDepth[11] = {0, 0, 0, 10, 5, 4, 3, 3, 3, 3, 2};
     int MinMaxValue = -2;
     std::pair<int,int> move;
-    unsigned int boardSize = gameBoard.getCols();
+    unsigned int boardSize = gameBoard.getDimension();
     Matrix & fields = gameBoard.returnMatrix();
     int winner;
     int player1ID = player1.getID();
     int player2ID = player2.getID();
-    int result = condition.Winner(gameBoard, player1, player2);
+    int result = condition.Winner();
+    //    int result = condition.Winner(gameBoard, player1, player2);
     std::pair <int, std::pair<int, int> > nextRecursion;
     if(result == 0)
     {
@@ -180,9 +318,9 @@ std::pair< int, std::pair<int, int> > Game::MinMax(Game & gameBoard, Player play
 
     }
 
-    for(unsigned int i = 0; i < boardSize; i++)
+    for(int i = 0; i < boardSize; i++)
     {
-        for(unsigned int j = 0; j < boardSize; j++)
+        for(int j = 0; j < boardSize; j++)
         {
             if(fields(i,j) == 0)
             {
@@ -214,6 +352,8 @@ std::pair< int, std::pair<int, int> > Game::MinMax(Game & gameBoard, Player play
 
     return {MinMaxValue, move};
 }
+ */
+/*
 void Game::Management()
 {
     unsigned int winningNumber, sizeOfBoard;

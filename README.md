@@ -6,7 +6,7 @@
 
 - move semantics
 
-- modern c++ features(STL, algorithms(in future))
+- modern c++ features(STL, algorithm)
 
 - multithreading (in future)
 ## In progress...
@@ -14,13 +14,10 @@
 # TODO:
 ## Game
 
-- MinMax
+- NAPRAW FUNKCJE WINNER, PRZECHODZA ELEMENTY, KTORE NIE POWINNY
 
-- Managment
+- Management - jesli to dziala, znaczy findBestMove, aiMove i minmax tez dzialaja
 
-## Player
-
-## Matrix
 
 ## Random
 
@@ -28,4 +25,6 @@
 
 - clean sloppy code
 
-- multithreading
+- add multithreading to Winner function
+
+- zobacz czy klasa Player jest taka potrzebna
