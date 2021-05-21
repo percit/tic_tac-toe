@@ -44,69 +44,77 @@ void Game::removeMove( int i,  int j)
 int Game::Winner() {
 
     int winningPlayer = 0;
-    int lineO_1h = 0, lineX_1h = 0; //for horizontal - will be needed for multithreading
-    int lineO_1v = 0, lineX_1v = 0; //for vertical
-    int lineO_2 = 0, lineX_2 = 0;//for diagonal
+    int lineO_h = 0, lineX_h = 0; //for horizontal - will be needed for multithreading
+    int lineO_v = 0, lineX_v = 0; //for vertical
+    int lineO_d1 = 0, lineX_d1 = 0, lineO_d2 = 0, lineX_d2 = 0;//for diagonal
 
     for (int i = 0; i < m.getRows(); i++) { //poziomo - horizontal
         for (int j = 0; j < m.getCols(); j++) {
             if (m(i, j) == 'X')   //   longest substring/binary number anything for XXX0X, so it will be 1 for X and 1 for 0
-                lineX_1h++;
+                lineX_h++;
             else if (m(i, j) == 'O')
-                lineO_1h++;
+                lineO_h++;
         }
-        if(lineX_1h == m.getCols()) //DODAJ ARGUMENT Z ILOSCIA ZNAKOW DO WYGRANEJ
+        if(lineX_h == m.getCols()) { //DODAJ ARGUMENT Z ILOSCIA ZNAKOW DO WYGRANEJ
             winningPlayer = 10;
-        else if(lineO_1h == m.getCols())
-            winningPlayer = -10;
-        else{
-            lineO_1h = 0;
-            lineX_1h = 0;
+            return winningPlayer;
         }
+        lineX_h = 0;
+        if(lineO_h == m.getCols()){
+            winningPlayer = -10;
+            return winningPlayer;
+        }
+        lineO_h = 0;
     }
 
 
     for (int i = 0; i < m.getRows(); i++) { //pionowo - vertical
         for (int j = 0; j < m.getCols(); j++) {
             if (m(j, i) == 'X')   //
-                lineX_1v++;
+                lineX_v++;
             else if (m(j, i) == 'O')
-                lineO_1v++;
+                lineO_v++;
         }
-        if(lineX_1v == m.getRows()) {
+        if(lineX_v == m.getRows()) {
             winningPlayer = 10;
+            return winningPlayer;
         }
-        else if(lineO_1v == m.getRows()) {
+        lineX_v = 0;
+        if(lineO_v == m.getRows()) {
             winningPlayer = -10;
+            return winningPlayer;
         }
-        else{
-            lineO_1v = 0;
-            lineX_1v = 0;
-        }
+        lineO_v = 0;
+
     }
 
     for (int i = 0; i < m.getCols(); i++) { //na ukos
-        for (int j = 0; j < m.getCols(); j++) {
-            if (m(i, i) == 'X')   //
-                lineX_2++;
-            else if (m(i, i) == 'O')
-                lineO_2++;
-            else if (m(j, j) == 'X')
-                lineO_2++;
-            else if (m(j, j) == 'O')
-                lineO_2++;
-        }
-        if(lineX_2 == m.getCols())
-            winningPlayer = 10;
-        else if(lineO_2 == m.getCols())
-            winningPlayer = -10;
-        else{
-            lineO_2 = 0;
-            lineX_2 = 0;
-        }
+        if (m(i, i) == 'X')   //te z i beda liczyc na zwykly ukos, te z j na odwrotny ( z prawej do lewej)
+            lineX_d1++;
+        else if (m(i, i) == 'O')
+            lineO_d1++;
     }
+    for (int j = 0; j < m.getCols(); ++j) { //na odwrotny ukos //    TU NIE JEST (J, J), TYLKO (0, SIZE-1), (1, SIZE-2)
+        if (m(j, m.getCols()-1-j) == 'X')
+            lineX_d2++;
+        else if (m(j, m.getCols()-1-j) == 'O')
+            lineO_d2++;
+    }
+        if(lineX_d1 == m.getCols() || lineX_d2 == m.getCols()){
+            winningPlayer = 10;
+            return winningPlayer;
+        }
+        lineX_d1 = 0;
+        lineX_d2 = 0;
+        if(lineO_d1 == m.getCols() || lineO_d2 == m.getCols()){
+            winningPlayer = -10;
+            return winningPlayer;
+        }
+        lineO_d1 = 0;
+        lineO_d2 = 0;
 
-    return winningPlayer;
+
+    return 0;
 }
 
 int minimax(Game & board,  int depth, bool isMax, int alpha, int beta) //X to my, pamietaj
