@@ -11,8 +11,6 @@ add_executable(tic_tac_toe
         main.cpp
         matrix.cpp
         matrix.h
-        Player.cpp
-        Player.h
         catch/catch_main.cpp
         Tests.cpp
         )

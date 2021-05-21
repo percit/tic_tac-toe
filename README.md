@@ -9,22 +9,12 @@
 - modern c++ features(STL, algorithm)
 
 - multithreading (in future)
-## In progress...
+## It works, but I want to clean up code and add cool features
 
 # TODO:
-## Game
-
-- NAPRAW FUNKCJE WINNER, PRZECHODZA ELEMENTY, KTORE NIE POWINNY
-
-- Management - jesli to dziala, znaczy findBestMove, aiMove i minmax tez dzialaja
-
 
 ## Random
 
 - add more modern c++ features
 
-- clean sloppy code
-
 - add multithreading to Winner function
-
-- zobacz czy klasa Player jest taka potrzebna

@@ -44,7 +44,7 @@ TEST_CASE("MIN_MAX"){
     }
 }
  */
-
+/*
 TEST_CASE("winner-rand"){
 
     SECTION("Rand00"){
@@ -225,9 +225,6 @@ TEST_CASE("Game"){
         g(1,1) = 'X';
         REQUIRE(g(1, 1) == 'X');
     }
-    SECTION("playerMove"){
-
-    }
 }
 TEST_CASE("Matrix"){
     SECTION("AmountOfMoves") {
@@ -237,3 +234,4 @@ TEST_CASE("Matrix"){
     }
 }
 
+*/
