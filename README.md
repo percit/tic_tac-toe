@@ -9,7 +9,6 @@
 - modern c++ features(STL, algorithm)
 
 - multithreading (in future)
-## It works, but I want to clean up code and add cool features
 
 # TODO:
 

@@ -1,17 +1,18 @@
 #include "Game.h"
 #include <climits>
+#include <mutex>
+using Lock = std::lock_guard<std::mutex>;
+std::mutex mutex1;
+std::mutex mutex2;
+std::mutex mutex3;
+std::mutex mutex4;
+
 void Game::addMove( int r,  int c, char player) {
-    if(m(r,c) == '-') {
-        m(r, c) = player;
-    }
+    if(m(r,c) == '-')  m(r, c) = player;
 }
 bool Game::isMoveAllowed( int r,  int c) {
-    if (m(r, c) != '-' ) {
-        return false;
-    }
-    else{
-        return true;
-    }
+    if(m(r, c) != '-' ) return false;
+    else return true;
 }
 int Game::getAmountOFMoves(){
     int amountOfMoves = 0;
@@ -25,81 +26,89 @@ int Game::getAmountOFMoves(){
 void Game::resetBoard() {
     m.clear();
 }
-void Game::removeMove( int i,  int j)
-{
+void Game::removeMove( int i,  int j){
     m(i,j) = '-';
 }
 
 int Game::Winner() {
 
     int winningPlayer = 0;
-    int lineO_h = 0, lineX_h = 0; //for horizontal - will be needed for multithreading
+    int lineO_h = 0, lineX_h = 0; //for horizontal
     int lineO_v = 0, lineX_v = 0; //for vertical
     int lineO_d1 = 0, lineX_d1 = 0, lineO_d2 = 0, lineX_d2 = 0;//for diagonal
 
-    for (int i = 0; i < m.getRows(); i++) { //poziomo - horizontal
-        for (int j = 0; j < m.getCols(); j++) {
-            if (m(i, j) == 'X')   //   longest substring/binary number anything for XXX0X, so it will be 1 for X and 1 for 0
-                lineX_h++;
-            else if (m(i, j) == 'O')
-                lineO_h++;
+    {
+        Lock lock1(mutex1);
+        for (int i = 0; i < m.getRows(); i++) { //poziomo - horizontal
+            for (int j = 0; j < m.getCols(); j++) {
+                if (m(i, j) == 'X')
+                    lineX_h++;
+                else if (m(i, j) == 'O')
+                    lineO_h++;
+            }
+            if (lineX_h == m.getCols()) {
+                winningPlayer = 10;
+                return winningPlayer;
+            }
+            lineX_h = 0;
+            if (lineO_h == m.getCols()) {
+                winningPlayer = -10;
+                return winningPlayer;
+            }
+            lineO_h = 0;
         }
-        if(lineX_h == m.getCols()) { //DODAJ ARGUMENT Z ILOSCIA ZNAKOW DO WYGRANEJ
-            winningPlayer = 10;
-            return winningPlayer;
-        }
-        lineX_h = 0;
-        if(lineO_h == m.getCols()){
-            winningPlayer = -10;
-            return winningPlayer;
-        }
-        lineO_h = 0;
     }
-
-    for (int i = 0; i < m.getRows(); i++) { //pionowo - vertical
-        for (int j = 0; j < m.getCols(); j++) {
-            if (m(j, i) == 'X')   //
-                lineX_v++;
-            else if (m(j, i) == 'O')
-                lineO_v++;
+    {
+        Lock lock2 (mutex2);
+        for (int i = 0; i < m.getRows(); i++) { //pionowo - vertical
+            for (int j = 0; j < m.getCols(); j++) {
+                if (m(j, i) == 'X')   //
+                    lineX_v++;
+                else if (m(j, i) == 'O')
+                    lineO_v++;
+            }
+            if (lineX_v == m.getRows()) {
+                winningPlayer = 10;
+                return winningPlayer;
+            }
+            lineX_v = 0;
+            if (lineO_v == m.getRows()) {
+                winningPlayer = -10;
+                return winningPlayer;
+            }
+            lineO_v = 0;
         }
-        if(lineX_v == m.getRows()) {
-            winningPlayer = 10;
-            return winningPlayer;
-        }
-        lineX_v = 0;
-        if(lineO_v == m.getRows()) {
-            winningPlayer = -10;
-            return winningPlayer;
-        }
-        lineO_v = 0;
-
     }
-
-    for (int i = 0; i < m.getCols(); i++) { //na ukos
-        if (m(i, i) == 'X')
-            lineX_d1++;
-        else if (m(i, i) == 'O')
-            lineO_d1++;
-    }
-    for (int j = 0; j < m.getCols(); ++j) { //na odwrotny ukos
-        if (m(j, m.getCols()-1-j) == 'X')
-            lineX_d2++;
-        else if (m(j, m.getCols()-1-j) == 'O')
-            lineO_d2++;
-    }
-        if(lineX_d1 == m.getCols() || lineX_d2 == m.getCols()){
-            winningPlayer = 10;
-            return winningPlayer;
+    {
+        Lock lock3(mutex3);
+        for (int i = 0; i < m.getCols(); i++) { //na ukos
+            if (m(i, i) == 'X')
+                lineX_d1++;
+            else if (m(i, i) == 'O')
+                lineO_d1++;
         }
-        lineX_d1 = 0;
-        lineX_d2 = 0;
-        if(lineO_d1 == m.getCols() || lineO_d2 == m.getCols()){
-            winningPlayer = -10;
-            return winningPlayer;
+    }
+    {
+        Lock lock4(mutex4);
+        for (int j = 0; j < m.getCols(); ++j) { //na odwrotny ukos
+            if (m(j, m.getCols() - 1 - j) == 'X')
+                lineX_d2++;
+            else if (m(j, m.getCols() - 1 - j) == 'O')
+                lineO_d2++;
         }
-        lineO_d1 = 0;
-        lineO_d2 = 0;
+    }
+    if(lineX_d1 == m.getCols() || lineX_d2 == m.getCols()){
+        winningPlayer = 10;
+        return winningPlayer;
+    }
+    lineX_d1 = 0;
+    lineX_d2 = 0;
+    if(lineO_d1 == m.getCols() || lineO_d2 == m.getCols()){
+        winningPlayer = -10;
+        return winningPlayer;
+    }
+    lineO_d1 = 0;
+    lineO_d2 = 0;
 
 
     return 0;
@@ -107,16 +116,10 @@ int Game::Winner() {
 
 int minimax(Game & board,  int depth, bool isMax, int alpha, int beta) //X to my, pamietaj
 {
-    if(depth == 7)
-        return 0;
-
     int score = board.Winner();
-    if (score == 10 || score == -10)    //if game is already won
-        return score;
-
-    if (board.getAmountOFMoves() == 0)
-        return 0; //draw
-
+    if(depth == 7) return 0;
+    if (score == 10 || score == -10) return score;    //if game is already won
+    if (board.getAmountOFMoves() == 0) return 0;//draw
 
     if (isMax)//player's turn
     {
@@ -130,7 +133,7 @@ int minimax(Game & board,  int depth, bool isMax, int alpha, int beta) //X to my
                     board.addMove(i, j, 'X');
                     best = std::max(best, minimax(board, depth + 1, !isMax, alpha, beta));
 
-                    //remove if not optimal
+                    //remove after calculating value
                     board.removeMove(i, j);
 
                     // alpha beta prunning

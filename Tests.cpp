@@ -2,49 +2,33 @@
 #include "catch/catch.hpp"
 
 
-/*
- TEST_CASE("Fibonacci") {
-    CHECK(Fibonacci(0) == 1);
-    // some more asserts..
-    CHECK(Fibonacci(5) == 8);
-    // some more asserts..
+#if 0
+ TEST_CASE("Benchmarking-aiMove") {
 
-    // now let's benchmark:
-    BENCHMARK("Fibonacci 20") {
-        return Fibonacci(20);
+
+    BENCHMARK("Board-3") {
+        Game board(3);
+        board.fill();
+        board.addMove(1, 1, 'X');
+        aiMove(board);
+    };
+    BENCHMARK("Board-5") {
+        Game board(5);
+        board.fill();
+        board.addMove(1, 1, 'X');
+        aiMove(board);
     };
 
-    BENCHMARK("Fibonacci 25") {
-        return Fibonacci(25);
+    BENCHMARK("Board-7") {
+        Game board(7);
+        board.fill();
+        board.addMove(1, 1, 'X');
+        aiMove(board);
     };
-
-    BENCHMARK("Fibonacci 30") {
-        return Fibonacci(30);
-    };
-
-    BENCHMARK("Fibonacci 35") {
-        return Fibonacci(35);
-    };
+#endif
 }
 
-//return {MinMaxValue, move};
-TEST_CASE("MIN_MAX"){
-    SECTION("first_test"){
-        Game g(3);
-        //CHECK( expression )
 
-        int a = ...;
-        int b = ...;
-        CHECKED_IF( a == b ) {
-            // This block is entered when a == b
-        } CHECKED_ELSE ( a == b ) {
-            // This block is entered when a != b
-        }
-
-    }
-}
- */
-/*
 TEST_CASE("winner-rand"){
 
     SECTION("Rand00"){
@@ -226,12 +210,5 @@ TEST_CASE("Game"){
         REQUIRE(g(1, 1) == 'X');
     }
 }
-TEST_CASE("Matrix"){
-    SECTION("AmountOfMoves") {
-        Matrix m(3, 3);
-        m.setMoves(5);
-        REQUIRE(m.getMoves() == 5);
-    }
-}
 
-*/
+
