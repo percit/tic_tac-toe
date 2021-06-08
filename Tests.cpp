@@ -2,10 +2,9 @@
 #include "catch/catch.hpp"
 
 
-#if 0
+
  TEST_CASE("Benchmarking-aiMove") {
-
-
+#if 0
     BENCHMARK("Board-3") {
         Game board(3);
         board.fill();

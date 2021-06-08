@@ -2,14 +2,11 @@
 #include <climits>
 #include <mutex>
 using Lock = std::lock_guard<std::mutex>;
-std::mutex mutex1;
+std::mutex mutex1;//it begins to work at 7x7
 std::mutex mutex2;
 std::mutex mutex3;
 std::mutex mutex4;
 
-void Game::addMove( int r,  int c, char player) {
-    if(m(r,c) == '-')  m(r, c) = player;
-}
 bool Game::isMoveAllowed( int r,  int c) {
     if(m(r, c) != '-' ) return false;
     else return true;
@@ -23,144 +20,110 @@ int Game::getAmountOFMoves(){
     }
     return amountOfMoves;
 }
-void Game::resetBoard() {
-    m.clear();
-}
-void Game::removeMove( int i,  int j){
-    m(i,j) = '-';
-}
 
 int Game::Winner() {
-
     int winningPlayer = 0;
     int lineO_h = 0, lineX_h = 0; //for horizontal
     int lineO_v = 0, lineX_v = 0; //for vertical
     int lineO_d1 = 0, lineX_d1 = 0, lineO_d2 = 0, lineX_d2 = 0;//for diagonal
 
-    {
+    {//poziomo - horizontal
         Lock lock1(mutex1);
-        for (int i = 0; i < m.getRows(); i++) { //poziomo - horizontal
+        for (int i = 0; i < m.getRows(); i++) {
             for (int j = 0; j < m.getCols(); j++) {
-                if (m(i, j) == 'X')
-                    lineX_h++;
-                else if (m(i, j) == 'O')
-                    lineO_h++;
+                if (m(i, j) == 'X') lineX_h++;
+                else if (m(i, j) == 'O') lineO_h++;
             }
             if (lineX_h == m.getCols()) {
                 winningPlayer = 10;
                 return winningPlayer;
             }
-            lineX_h = 0;
-            if (lineO_h == m.getCols()) {
+            else if (lineO_h == m.getCols()) {
                 winningPlayer = -10;
                 return winningPlayer;
             }
-            lineO_h = 0;
+            lineO_h = 0; lineX_h = 0;
         }
     }
-    {
+
+    {//pionowo - vertical
         Lock lock2 (mutex2);
-        for (int i = 0; i < m.getRows(); i++) { //pionowo - vertical
+        for (int i = 0; i < m.getRows(); i++) {
             for (int j = 0; j < m.getCols(); j++) {
-                if (m(j, i) == 'X')   //
-                    lineX_v++;
-                else if (m(j, i) == 'O')
-                    lineO_v++;
+                if (m(j, i) == 'X') lineX_v++;
+                else if (m(j, i) == 'O') lineO_v++;
             }
             if (lineX_v == m.getRows()) {
                 winningPlayer = 10;
                 return winningPlayer;
             }
-            lineX_v = 0;
-            if (lineO_v == m.getRows()) {
+            else if (lineO_v == m.getRows()) {
                 winningPlayer = -10;
                 return winningPlayer;
             }
-            lineO_v = 0;
+            lineO_v = 0; lineX_v = 0;
         }
     }
-    {
+    {//na diagonal
         Lock lock3(mutex3);
-        for (int i = 0; i < m.getCols(); i++) { //na ukos
-            if (m(i, i) == 'X')
-                lineX_d1++;
-            else if (m(i, i) == 'O')
-                lineO_d1++;
+        for (int i = 0; i < m.getCols(); i++) {
+            if (m(i, i) == 'X') lineX_d1++;
+            else if (m(i, i) == 'O') lineO_d1++;
         }
     }
-    {
+    {//reverse diagonal
         Lock lock4(mutex4);
-        for (int j = 0; j < m.getCols(); ++j) { //na odwrotny ukos
-            if (m(j, m.getCols() - 1 - j) == 'X')
-                lineX_d2++;
-            else if (m(j, m.getCols() - 1 - j) == 'O')
-                lineO_d2++;
+        for (int j = 0; j < m.getCols(); ++j) {
+            if (m(j, m.getCols() - 1 - j) == 'X') lineX_d2++;
+            else if (m(j, m.getCols() - 1 - j) == 'O')  lineO_d2++;
         }
     }
-    if(lineX_d1 == m.getCols() || lineX_d2 == m.getCols()){
-        winningPlayer = 10;
-        return winningPlayer;
+    {//checking the diagonals
+        if (lineX_d1 == m.getCols() || lineX_d2 == m.getCols()) {
+            winningPlayer = 10;
+            return winningPlayer;
+        }
+        if (lineO_d1 == m.getCols() || lineO_d2 == m.getCols()) {
+            winningPlayer = -10;
+            return winningPlayer;
+        }
+        lineO_d1 = 0; lineO_d2 = 0; lineX_d1 = 0; lineX_d2 = 0;
     }
-    lineX_d1 = 0;
-    lineX_d2 = 0;
-    if(lineO_d1 == m.getCols() || lineO_d2 == m.getCols()){
-        winningPlayer = -10;
-        return winningPlayer;
-    }
-    lineO_d1 = 0;
-    lineO_d2 = 0;
-
-
     return 0;
 }
 
-int minimax(Game & board,  int depth, bool isMax, int alpha, int beta) //X to my, pamietaj
-{
+int minimax(Game & board,  int depth, bool isMax, int alpha, int beta){ //X is us, don't forget dummy
     int score = board.Winner();
     if(depth == 7) return 0;
     if (score == 10 || score == -10) return score;    //if game is already won
     if (board.getAmountOFMoves() == 0) return 0;//draw
 
-    if (isMax)//player's turn
-    {
+    if (isMax){//player's turn
         int best = INT_MIN/10;
-        for (int i = 0; i < board.getDimension(); i++)
-        {
-            for (int j = 0; j < board.getDimension(); j++)
-            {
-                if (board.isMoveAllowed(i, j))
-                {
+        for (int i = 0; i < board.getDimension(); i++){
+            for (int j = 0; j < board.getDimension(); j++){
+                if (board.isMoveAllowed(i, j)){
                     board.addMove(i, j, 'X');
                     best = std::max(best, minimax(board, depth + 1, !isMax, alpha, beta));
-
-                    //remove after calculating value
-                    board.removeMove(i, j);
-
-                    // alpha beta prunning
-                    alpha = std::max(alpha, best);
-                    if(beta <= alpha)
-                        break;
+                    board.removeMove(i, j);//remove after calculating value
+                    alpha = std::max(alpha, best);// alpha beta prunning
+                    if(beta <= alpha) break;
                 }
             }
         }
         return best;
     }
 
-    else //AI
-    {
+    else{ //AI
         int best = INT_MAX/10;
-        for (int i = 0; i < board.getDimension(); i++)
-        {
-            for (int j = 0; j < board.getDimension(); j++)
-            {
-                if (board.isMoveAllowed(i, j))
-                {
+        for (int i = 0; i < board.getDimension(); i++){
+            for (int j = 0; j < board.getDimension(); j++){
+                if (board.isMoveAllowed(i, j)){
                     board.addMove(i, j, 'O');
                     best = std::min(best, minimax(board, depth + 1, !isMax, alpha, beta));
                     board.removeMove(i, j);
                     beta = std::min(beta, best);
-                    if(beta <= alpha)
-                        break;
+                    if(beta <= alpha) break;
                 }
             }
         }
@@ -175,20 +138,14 @@ std::pair<int, int> findBestMove(Game& board)
     bestMove.first = -1;
     bestMove.second = -1;
     //we check all empty places and get minmax values for each to find optimal move
-    for (int i = 0; i < board.getDimension(); i++)
-    {
-        for (int j = 0; j < board.getDimension(); j++)
-        {
-            if (board.isMoveAllowed(i, j))
-            {
+    for (int i = 0; i < board.getDimension(); i++){
+        for (int j = 0; j < board.getDimension(); j++){
+            if (board.isMoveAllowed(i, j)){
                 board.addMove(i, j, 'O');
                 //getting the value for that place
                 int moveVal = minimax(board,0, true, INT_MIN/10,INT_MAX/10);
-                //remove move(id adds it only for checking minmax
-                board.removeMove(i, j);
-                //if this place is most optimal, then choose it
-                if (moveVal < bestVal)
-                {
+                board.removeMove(i, j);//remove move(id adds it only for checking minmax
+                if (moveVal < bestVal){//if this place is most optimal, then choose it
                     bestMove.first = i;
                     bestMove.second = j;
                     bestVal = moveVal;
@@ -204,43 +161,34 @@ void playerMove(Game& board)
     int y = 0;
     std::cout << "Where to put the sign?  " << std::endl;
     std::cin >> x >> y ;
-    if ((x <= board.getDimension() - 1 && x >= 0) && (y <= board.getDimension() - 1 && y >= 0))
-    {
-        if (board.isMoveAllowed(x, y))
-            board.addMove(x, y, 'X');
-        else
-        {
+    if ((x <= board.getDimension() - 1 && x >= 0) && (y <= board.getDimension() - 1 && y >= 0)){
+        if (board.isMoveAllowed(x, y)) board.addMove(x, y, 'X');
+        else{
             std::cout << " Place taken" << std::endl;
             playerMove(board);
         }
     }
-    else
-    {
+    else{
         std::cout << "Out of bounds" << std::endl;
         playerMove(board);
     }
-
 }
 void aiMove(Game& board)
 {
     auto bestMove = findBestMove(board);
     int x = bestMove.first;
     int y = bestMove.second;
-    if(board.isMoveAllowed(x, y))
-        board.addMove(x, y, 'O');
+    if(board.isMoveAllowed(x, y)) board.addMove(x, y, 'O');
 }
-void Management(Game& board)
-{
+void Management(Game& board){//syf, ale co zrobisz, nic nie zrobisz
     int victory = 0;
-    while(board.getAmountOFMoves() > 0)
-    {
+    while(board.getAmountOFMoves() > 0){
         std::cout << "Your move: " << std::endl;
 
         if(board.getAmountOFMoves() > 0) //if any moves left
             playerMove(board);
         victory = board.Winner();
-        if(victory == 10)
-        {
+        if(victory == 10){
             std::cout << "You won" << std::endl;
             break;
         }

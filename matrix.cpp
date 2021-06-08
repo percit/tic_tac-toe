@@ -3,7 +3,7 @@
 
 void Matrix::fill(){
     for(int i = 0; i < rows * cols; i++) {
-        board.push_back('-');//zamien na cos innego debilu XD
+        board.push_back('-');
     }
 }
 std::ostream& operator<<(std::ostream& out, Matrix& m){

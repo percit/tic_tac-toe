@@ -8,12 +8,12 @@
 
 - modern c++ features(STL, algorithm)
 
-- multithreading (in future)
+- multithreading 
+
+- SOLID (in progress)
 
 # TODO:
 
 ## Random
 
-- add more modern c++ features
-
-- add multithreading to Winner function
+- make code more SOLID

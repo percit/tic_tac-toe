@@ -15,12 +15,12 @@ private:
     Matrix m;
 public:
     Game(int newDimension): m(newDimension, newDimension), dimension(newDimension){}
-    void addMove( int ,  int, char);
+    void addMove( int r,  int c, char player){ if(m(r,c) == '-')  m(r, c) = player;}
     bool isMoveAllowed( int,  int);
-    void resetBoard();
+    void resetBoard(){ m.clear();}
     [[nodiscard]] int getDimension() const{ return dimension;}
     int getAmountOFMoves();
-    void removeMove( int i,  int j);
+    void removeMove( int i,  int j){m(i,j) = '-';}
     void fill(){m.fill();}
     void clear(){m.clear();}
     Matrix & returnMatrix(){return m;}

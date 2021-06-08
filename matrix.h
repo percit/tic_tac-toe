@@ -32,7 +32,7 @@ public:
     // operator overloading
     char &operator()( int r,  int c);
     friend std::ostream& operator<<(std::ostream& out, Matrix& m);
-    //functions
+    //random functions
     void fill();
     void clear();
 };
