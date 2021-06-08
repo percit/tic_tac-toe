@@ -15,17 +15,17 @@ private:
     Matrix m;
 public:
     Game(int newDimension): m(newDimension, newDimension), dimension(newDimension){}
-    void addMove( int r,  int c, char player){ if(m(r,c) == '-')  m(r, c) = player;}
-    bool isMoveAllowed( int,  int);
+    void addMove(const int& r, const int& c, const char& player){ if(m(r,c) == '-')  m(r, c) = player;}
+    bool isMoveAllowed(const int&,  const int&);
     void resetBoard(){ m.clear();}
     [[nodiscard]] int getDimension() const{ return dimension;}
     int getAmountOFMoves();
-    void removeMove( int i,  int j){m(i,j) = '-';}
+    void removeMove(const int& i, const int& j){m(i,j) = '-';}
     void fill(){m.fill();}
     void clear(){m.clear();}
     Matrix & returnMatrix(){return m;}
     //operators
-    char& operator()( int r,  int c) {return m(r, c);}
+    char& operator()(const int& r, const int& c) {return m(r, c);}
     friend std::ostream& operator<<(std::ostream& out, Game& game){
         out << game.m;
         return out;

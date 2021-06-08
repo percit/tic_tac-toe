@@ -6,7 +6,7 @@ void Matrix::fill(){
         board.push_back('-');
     }
 }
-std::ostream& operator<<(std::ostream& out, Matrix& m){
+std::ostream& operator<<( std::ostream& out, Matrix& m){
     for(int i = 0; i < m.rows; i++){
         for(int j = 0; j < m.cols; j++){
             std::cout<< " | " << m(i, j) ;
@@ -15,7 +15,7 @@ std::ostream& operator<<(std::ostream& out, Matrix& m){
     }
     return out;
 }
-char& Matrix::operator()( int r,  int c){
+char& Matrix::operator()(const int& r, const  int& c){
     if(r < rows && c < cols)
         return board.at(r + c * rows);
     else {

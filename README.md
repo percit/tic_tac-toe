@@ -8,7 +8,7 @@
 
 - modern c++ features(STL, algorithm)
 
-- multithreading 
+- multithreading(for size <7 it's worse than without it, but only slightly)
 
 - SOLID (in progress)
 

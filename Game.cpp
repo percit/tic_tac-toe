@@ -7,7 +7,7 @@ std::mutex mutex2;
 std::mutex mutex3;
 std::mutex mutex4;
 
-bool Game::isMoveAllowed( int r,  int c) {
+bool Game::isMoveAllowed(const int& r,  const int& c){
     if(m(r, c) != '-' ) return false;
     else return true;
 }
@@ -64,7 +64,7 @@ int Game::Winner() {
             lineO_v = 0; lineX_v = 0;
         }
     }
-    {//na diagonal
+    {//diagonal
         Lock lock3(mutex3);
         for (int i = 0; i < m.getCols(); i++) {
             if (m(i, i) == 'X') lineX_d1++;

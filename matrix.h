@@ -25,13 +25,13 @@ public:
     }
     Matrix(Matrix &&m) noexcept :  cols(m.cols),  rows(m.rows),  board(std::move(m.board)){} //coping cols and rows, cause they are just ints
     //getters and setters
-    void setCols( int a){ cols = a;}
-    void setRows( int b){ rows = b;}
-    [[nodiscard]] int getCols() const{ return cols;}
-    int getRows(){ return rows;}
+    void setCols(const int& a){ cols = a;}
+    void setRows(const int& b){ rows = b;}
+    [[nodiscard]] int getCols() const {return cols;}
+    [[nodiscard]] int getRows() const{ return rows;}
     // operator overloading
-    char &operator()( int r,  int c);
-    friend std::ostream& operator<<(std::ostream& out, Matrix& m);
+    char &operator()(const int& r, const  int& c);
+    friend std::ostream& operator<<( std::ostream& out, Matrix& m);
     //random functions
     void fill();
     void clear();
