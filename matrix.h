@@ -14,6 +14,9 @@ public:
     explicit Matrix(int a = 3, int b = 3): cols(a), rows(b) {
         if((cols == rows) && (rows >=3) && (rows <=10)) {
             board.reserve(cols * rows);
+            for(int i = 0; i < rows * cols; i++) {
+                board.push_back('-');
+            }
         }
     }
     virtual ~Matrix()  = default;
@@ -33,7 +36,6 @@ public:
     char &operator()(const int& r, const  int& c);
     friend std::ostream& operator<<( std::ostream& out, Matrix& m);
     //random functions
-    void fill();
     void clear();
 };
 #endif //UNTITLED3_MATRIX_H

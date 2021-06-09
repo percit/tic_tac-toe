@@ -180,7 +180,7 @@ void aiMove(Game& board)
     int y = bestMove.second;
     if(board.isMoveAllowed(x, y)) board.addMove(x, y, 'O');
 }
-void Management(Game& board){//syf, ale co zrobisz, nic nie zrobisz
+void Management(Game& board){//syf, ale co zrobisz? nic nie zrobisz
     int victory = 0;
     while(board.getAmountOFMoves() > 0){
         std::cout << "Your move: " << std::endl;

@@ -14,14 +14,13 @@ private:
     int dimension = 3;
     Matrix m;
 public:
-    Game(int newDimension): m(newDimension, newDimension), dimension(newDimension){}
+    explicit Game(int newDimension): m(newDimension, newDimension), dimension(newDimension){}
     void addMove(const int& r, const int& c, const char& player){ if(m(r,c) == '-')  m(r, c) = player;}
     bool isMoveAllowed(const int&,  const int&);
     void resetBoard(){ m.clear();}
     [[nodiscard]] int getDimension() const{ return dimension;}
     int getAmountOFMoves();
     void removeMove(const int& i, const int& j){m(i,j) = '-';}
-    void fill(){m.fill();}
     void clear(){m.clear();}
     Matrix & returnMatrix(){return m;}
     //operators

@@ -1,11 +1,6 @@
 #include "matrix.h"
 #include <exception>
 
-void Matrix::fill(){
-    for(int i = 0; i < rows * cols; i++) {
-        board.push_back('-');
-    }
-}
 std::ostream& operator<<( std::ostream& out, Matrix& m){
     for(int i = 0; i < m.rows; i++){
         for(int j = 0; j < m.cols; j++){
