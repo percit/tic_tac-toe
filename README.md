@@ -13,3 +13,4 @@
 - RAII
 
 ### how to build:
+sudo apt install cmake libgtest-dev

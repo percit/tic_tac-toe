@@ -1,10 +1,171 @@
-// #include "Game.h"
-// #include "catch/catch.hpp"
+#include "Game.h"
+#include <gtest/gtest.h>
+
+TEST(Game, IsMoveAllowed) {
+    Game g(3);
+    g(1, 1) = 'x';
+    EXPECT_FALSE(g.isMoveAllowed(1, 1));
+}
+
+TEST(Game, AddMove) {
+    Game g(3);
+    g.addMove(1, 1, 'X');
+    EXPECT_EQ(g(1, 1), 'X');
+}
+
+TEST(Game, FillClear) {
+    Game g(3);
+    g(1, 1) = 'X';
+    EXPECT_EQ(g(0, 0), '-');
+    g.clear();
+    EXPECT_EQ(g(0, 0), '-');
+}
+
+TEST(Game, AddSignToMatrix) {
+    Game g(3);
+    g(1, 1) = 'X';
+    EXPECT_EQ(g(1, 1), 'X');
+}
+
+TEST(NoWinnerRand, Rand00) {
+    Game g(3);
+    g.addMove(0, 0, 'X');           // X - -
+    EXPECT_EQ(g.Winner(), 0);
+}
+
+TEST(NoWinnerRand, Rand01) {
+    Game g(3);
+    g.addMove(0, 1, 'X');           // - X -
+    EXPECT_EQ(g.Winner(), 0);
+}
+
+TEST(NoWinnerRand, Rand10) {
+    Game g(3);
+    g.addMove(1, 0, 'X');           // X - -
+    EXPECT_EQ(g.Winner(), 0);
+}
+
+TEST(NoWinnerRand, Rand11) {
+    Game g(3);
+    g.addMove(1, 1, 'X');           // - X -
+    EXPECT_EQ(g.Winner(), 0);
+}
+
+TEST(NoWinnerRand, Rand22) {
+    Game g(3);
+    g.addMove(2, 2, 'X');           // - - -
+    EXPECT_EQ(g.Winner(), 0);
+}
+
+// Tests for Winner3
+TEST(Winner3, Poziomy3X) {
+    Game g(3);
+    g.addMove(0, 0, 'X');        // X X X
+    g.addMove(0, 1, 'X');        // - - -
+    g.addMove(0, 2, 'X');        // - - -
+    EXPECT_EQ(g.Winner(), 10);
+}
+
+TEST(Winner3, Poziomy3O) {
+    Game g(3);
+    g.addMove(0, 0, 'O');        // O O O
+    g.addMove(0, 1, 'O');        // - - -
+    g.addMove(0, 2, 'O');        // - - -
+    EXPECT_EQ(g.Winner(), -10);
+}
+
+TEST(Winner3, Pionowy3) {
+    Game g(3);
+    g.addMove(0, 0, 'X');        // X - -
+    g.addMove(1, 0, 'X');        // X - -
+    g.addMove(2, 0, 'X');        // X - -
+    EXPECT_EQ(g.Winner(), 10);
+}
+
+TEST(Winner3, Pionowy3O) {
+    Game g(3);
+    g.addMove(0, 0, 'O');        // O - -
+    g.addMove(1, 0, 'O');        // O - -
+    g.addMove(2, 0, 'O');        // O - -
+    EXPECT_EQ(g.Winner(), -10);
+}
+
+TEST(Winner3, Diagnonal3) {
+    Game g(3);
+    g.addMove(0, 0, 'X');        // X - -
+    g.addMove(1, 1, 'X');        // - X -
+    g.addMove(2, 2, 'X');        // - - X
+    EXPECT_EQ(g.Winner(), 10);
+}
+
+TEST(Winner3, Diagnonal3O) {
+    Game g(3);
+    g.addMove(0, 0, 'O');        // O - -
+    g.addMove(1, 1, 'O');        // - O -
+    g.addMove(2, 2, 'O');        // - - O
+    EXPECT_EQ(g.Winner(), -10);
+}
+
+TEST(Winner3, RevDiagnonal3) {
+    Game g(3);
+    g.addMove(0, 2, 'X');        // - - X
+    g.addMove(1, 1, 'X');        // - X -
+    g.addMove(2, 0, 'X');        // X - -
+    EXPECT_EQ(g.Winner(), 10);
+}
+
+TEST(Winner3, RevDiagnonal3O) {
+    Game g(3);
+    g.addMove(0, 2, 'O');        // - - O
+    g.addMove(1, 1, 'O');        // - O -
+    g.addMove(2, 0, 'O');        // O - -
+    EXPECT_EQ(g.Winner(), -10);
+}
+
+// Tests for Winner5
+TEST(Winner5, Poziomy5) {
+    Game g(5);
+    g.addMove(2, 0, 'X');        // - - - - -
+    g.addMove(2, 1, 'X');        // - - - - -
+    g.addMove(2, 2, 'X');        // X X X X X
+    g.addMove(2, 3, 'X');        // - - - - -
+    g.addMove(2, 4, 'X');        // - - - - -
+    EXPECT_EQ(g.Winner(), 10);
+}
+
+TEST(Winner5, Pionowy5) {
+    Game g(5);
+    g.addMove(2, 0, 'X');        // - - X - -
+    g.addMove(2, 1, 'X');        // - - X - -
+    g.addMove(2, 2, 'X');        // - - X - -
+    g.addMove(2, 3, 'X');        // - - X - -
+    g.addMove(2, 4, 'X');        // - - X - -
+    EXPECT_EQ(g.Winner(), 10);
+}
+
+TEST(Winner5, Diagnonal5) {
+    Game g(5);
+    g.addMove(0, 0, 'X');        // X - - - -
+    g.addMove(1, 1, 'X');        // - X - - -
+    g.addMove(2, 2, 'X');        // - - X - -
+    g.addMove(3, 3, 'X');        // - - - X -
+    g.addMove(4, 4, 'X');        // - - - - X
+    EXPECT_EQ(g.Winner(), 10);
+}
+
+TEST(Winner5, RevDiagnonal5) {
+    Game g(5);
+    g.addMove(0, 4, 'X');        // - - - - X
+    g.addMove(1, 3, 'X');        // - - - X -
+    g.addMove(2, 2, 'X');        // - - X - -
+    g.addMove(3, 1, 'X');        // - X - - -
+    g.addMove(4, 0, 'X');        // X - - - -
+    EXPECT_EQ(g.Winner(), 10);
+}
 
 
-//co do testow to takze przetestuj tworzenie np 2x2 -> nie powinno dzilac itd (aktualnie sie crashuje)
 
-// TEST_CASE("Benchmarking-aiMove") {
+// TEST("Benchmarking-aiMove") {
 // // #if 0
 //     BENCHMARK("Board-3") {
 //         Game board(3);
@@ -26,7 +187,7 @@
 // }
 
 
-// TEST_CASE("No-Winner-rand"){
+// TEST("No-Winner-rand"){
 //     Game g(3);
 //     SECTION("Rand00"){
 
@@ -64,7 +225,7 @@
 
 // }
 
-// TEST_CASE("Winner3"){
+// TEST("Winner3"){
 //     Game g(3);
 //     SECTION("Poziomy3X"){
 //         g.addMove(0,0, 'X');        // X X X
@@ -121,7 +282,7 @@
 
 // }
 
-// TEST_CASE("Winner5"){
+// TEST("Winner5"){
 //     Game g(5);
 //     SECTION("Poziomy5"){
 //         g.addMove(2,0, 'X');        // - - - - -
@@ -157,7 +318,7 @@
 //         REQUIRE(g.Winner() == 10);
 //     }
 // }
-// TEST_CASE("Game"){
+// TEST("Game"){
 //     Game g(3);
 //     SECTION("IsMoveAllowed") {
 //         g(1, 1) = 'x';
@@ -180,3 +341,8 @@
 // }
 
 
+int main(int argc, char *argv[])
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
