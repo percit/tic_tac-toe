@@ -1,11 +1,6 @@
 #include "Game.h"
 #include <climits>
-#include <mutex>
-using Lock = std::lock_guard<std::mutex>;
-std::mutex mutex1;//it begins to work at 7x7
-std::mutex mutex2;
-std::mutex mutex3;
-std::mutex mutex4;
+#include <future>
 
 bool Game::isMoveAllowed(const int& r,  const int& c){
     if(m(r, c) != '-' ) return false;
@@ -27,9 +22,9 @@ int Game::Winner() {
     int lineO_v = 0, lineX_v = 0; //for vertical
     int lineO_d1 = 0, lineX_d1 = 0, lineO_d2 = 0, lineX_d2 = 0;//for diagonal
 
-    {//poziomo - horizontal
-        Lock lock1(mutex1);
-        for (int i = 0; i < m.getRows(); i++) {
+    std::async(std::launch::async, [&](){
+		// //poziomo - horizontal
+		for (int i = 0; i < m.getRows(); i++) {
             for (int j = 0; j < m.getCols(); j++) {
                 if (m(i, j) == 'X') lineX_h++;
                 else if (m(i, j) == 'O') lineO_h++;
@@ -44,10 +39,9 @@ int Game::Winner() {
             }
             lineO_h = 0; lineX_h = 0;
         }
-    }
+	});
 
-    {//pionowo - vertical
-        Lock lock2 (mutex2);
+    std::async(std::launch::async, [&](){//pionowo - vertical
         for (int i = 0; i < m.getRows(); i++) {
             for (int j = 0; j < m.getCols(); j++) {
                 if (m(j, i) == 'X') lineX_v++;
@@ -63,22 +57,20 @@ int Game::Winner() {
             }
             lineO_v = 0; lineX_v = 0;
         }
-    }
-    {//diagonal
-        Lock lock3(mutex3);
+    });
+    std::async(std::launch::async, [&](){//diagonal
         for (int i = 0; i < m.getCols(); i++) {
             if (m(i, i) == 'X') lineX_d1++;
             else if (m(i, i) == 'O') lineO_d1++;
         }
-    }
-    {//reverse diagonal
-        Lock lock4(mutex4);
+    });
+    std::async(std::launch::async, [&](){//reverse diagonal
         for (int j = 0; j < m.getCols(); ++j) {
             if (m(j, m.getCols() - 1 - j) == 'X') lineX_d2++;
             else if (m(j, m.getCols() - 1 - j) == 'O')  lineO_d2++;
         }
-    }
-    {//checking the diagonals
+    });
+    std::async(std::launch::async, [&](){//checking the diagonals
         if (lineX_d1 == m.getCols() || lineX_d2 == m.getCols()) {
             winningPlayer = 10;
             return winningPlayer;
@@ -88,14 +80,14 @@ int Game::Winner() {
             return winningPlayer;
         }
         lineO_d1 = 0; lineO_d2 = 0; lineX_d1 = 0; lineX_d2 = 0;
-    }
+    });
     return 0;
 }
 
-int minimax(Game & board,  int depth, bool isMax, int alpha, int beta){ //X is us, don't forget dummy
+int minimax(Game & board,  int depth, bool isMax, int alpha, int beta){ //X is us, O is AI
     int score = board.Winner();
     if(depth == 7) return 0;
-    if (score == 10 || score == -10) return score;    //if game is already won
+    if (score == 10 || score == -10) return score;//if game is already won
     if (board.getAmountOFMoves() == 0) return 0;//draw
 
     if (isMax){//player's turn
@@ -164,7 +156,7 @@ void playerMove(Game& board)
     if ((x <= board.getDimension() - 1 && x >= 0) && (y <= board.getDimension() - 1 && y >= 0)){
         if (board.isMoveAllowed(x, y)) board.addMove(x, y, 'X');
         else{
-            std::cout << " Place taken" << std::endl;
+            std::cout << "Place taken" << std::endl;
             playerMove(board);
         }
     }
@@ -180,7 +172,7 @@ void aiMove(Game& board)
     int y = bestMove.second;
     if(board.isMoveAllowed(x, y)) board.addMove(x, y, 'O');
 }
-void Management(Game& board){//syf, ale co zrobisz? nic nie zrobisz
+void Management(Game& board){
     int victory = 0;
     while(board.getAmountOFMoves() > 0){
         std::cout << "Your move: " << std::endl;

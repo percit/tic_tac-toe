@@ -2,15 +2,13 @@ cmake_minimum_required(VERSION 3.17)
 project(tic_tac_toe)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-include_directories(.)
+add_subdirectory(src)
 
-add_executable(tic_tac_toe
-        Game.cpp
-        Game.h
-        main.cpp
-        matrix.cpp
-        matrix.h
-        catch/catch_main.cpp
-        Tests.cpp
-        )
+option(BUILD_TESTS "Build tests" OFF)
+if(BUILD_TESTS)
+        enable_testing()
+        add_subdirectory(tests)
+endif()
