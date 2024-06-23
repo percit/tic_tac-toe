@@ -8,14 +8,8 @@
 
 - modern c++ features(STL, algorithm)
 
-- multithreading(for size <7 it's worse than without it, but only slightly, it's just a cost of making new threads)
-
-- SOLID (in progress)
+- multithreading
 
 - RAII
 
-# TODO:
-
-## Random
-
-- make code more SOLID
+### how to build:

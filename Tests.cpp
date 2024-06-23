@@ -2,9 +2,8 @@
 #include "catch/catch.hpp"
 
 
-
- TEST_CASE("Benchmarking-aiMove") {
-#if 0
+TEST_CASE("Benchmarking-aiMove") {
+// #if 0
     BENCHMARK("Board-3") {
         Game board(3);
         board.addMove(1, 1, 'X');
@@ -21,7 +20,7 @@
         board.addMove(1, 1, 'X');
         aiMove(board);
     };
-#endif
+// #endif
 }
 
 

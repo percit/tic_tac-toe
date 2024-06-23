@@ -2,7 +2,7 @@
 #include <climits>
 #include <mutex>
 using Lock = std::lock_guard<std::mutex>;
-std::mutex mutex1;//it begins to work at 7x7
+std::mutex mutex1;
 std::mutex mutex2;
 std::mutex mutex3;
 std::mutex mutex4;
@@ -21,7 +21,7 @@ int Game::getAmountOFMoves(){
     return amountOfMoves;
 }
 
-int Game::Winner() {
+int Game::Winner() { //todo zamiast tych lockow, to daj asynci
     int winningPlayer = 0;
     int lineO_h = 0, lineX_h = 0; //for horizontal
     int lineO_v = 0, lineX_v = 0; //for vertical
@@ -92,10 +92,10 @@ int Game::Winner() {
     return 0;
 }
 
-int minimax(Game & board,  int depth, bool isMax, int alpha, int beta){ //X is us, don't forget dummy
+int minimax(Game & board,  int depth, bool isMax, int alpha, int beta){ //X is us, O is AI
     int score = board.Winner();
     if(depth == 7) return 0;
-    if (score == 10 || score == -10) return score;    //if game is already won
+    if (score == 10 || score == -10) return score;//if game is already won
     if (board.getAmountOFMoves() == 0) return 0;//draw
 
     if (isMax){//player's turn
@@ -180,7 +180,7 @@ void aiMove(Game& board)
     int y = bestMove.second;
     if(board.isMoveAllowed(x, y)) board.addMove(x, y, 'O');
 }
-void Management(Game& board){//syf, ale co zrobisz? nic nie zrobisz
+void Management(Game& board){
     int victory = 0;
     while(board.getAmountOFMoves() > 0){
         std::cout << "Your move: " << std::endl;
