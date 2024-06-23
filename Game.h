@@ -10,11 +10,15 @@ struct Move
 };
 class Game{
 private:
-   // int winningID = 0; //winningNumber z wincondition.h
     int dimension = 3;
     Matrix m;
 public:
-    explicit Game(int newDimension): m(newDimension, newDimension), dimension(newDimension){}
+    explicit Game(int newDimension): m(newDimension, newDimension), dimension(newDimension){
+        if(newDimension < 3){
+            std::cout << "Board too small" << std::endl;
+            std::abort();
+        }
+    }
     void addMove(const int& r, const int& c, const char& player){ if(m(r,c) == '-')  m(r, c) = player;}
     bool isMoveAllowed(const int&,  const int&);
     void resetBoard(){ m.clear();}
