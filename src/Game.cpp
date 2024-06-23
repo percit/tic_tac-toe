@@ -164,7 +164,7 @@ void playerMove(Game& board)
     if ((x <= board.getDimension() - 1 && x >= 0) && (y <= board.getDimension() - 1 && y >= 0)){
         if (board.isMoveAllowed(x, y)) board.addMove(x, y, 'X');
         else{
-            std::cout << " Place taken" << std::endl;
+            std::cout << "Place taken" << std::endl;
             playerMove(board);
         }
     }

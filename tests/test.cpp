@@ -2,7 +2,7 @@
 // #include "catch/catch.hpp"
 
 
-//co do testow to takze przetestuj tworzenie np 2x2 -> nie powinno dzilac itd
+//co do testow to takze przetestuj tworzenie np 2x2 -> nie powinno dzilac itd (aktualnie sie crashuje)
 
 // TEST_CASE("Benchmarking-aiMove") {
 // // #if 0
